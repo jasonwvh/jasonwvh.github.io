@@ -456,7 +456,6 @@ footer .container {
 .charts_container .container {
   margin: auto;
   margin-top: 50px;
-  overflow-x: hidden;
 }
 
 .charts_container .tableWrapper {

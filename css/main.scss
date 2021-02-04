@@ -390,13 +390,15 @@ $baseFontSize: 16px;
 $baseLineHeight: 1;
 
 $chartGap: 10px;
-$chartCount: 3;
-$chartOneCount: 11;
-$chartTwoCount: 2;
-$chartThreeCount: 4;
-$totalChartCount: $chartOneCount + $chartTwoCount + $chartThreeCount;
+$chartCount: 4;
+$chartOneCount: 4;
+$chartTwoCount: 3;
+$chartThreeCount: 2;
+$chartFourCount: 4;
+$totalChartCount: $chartOneCount + $chartTwoCount + $chartThreeCount +
+    $chartFourCount;
 
-$titleGap: 10px;
+$titleGap: 5px;
 $titleHeight: $baseFontSize * $baseLineHeight + $titleGap;
 
 $chartBarHeight: 30px;
@@ -407,8 +409,6 @@ $chartBarGap: 10px;
     .container {
         margin: auto;
         margin-top: 50px;
-
-        overflow-x: hidden;
     }
     .tableWrapper {
         padding: 20px;
