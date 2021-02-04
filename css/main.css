@@ -82,7 +82,7 @@ section h1 {
   color: #181818;
   position: relative;
   text-decoration: none;
-  padding-top: 50px;
+  padding-top: 60px;
   padding-bottom: 10px;
 }
 
@@ -99,7 +99,8 @@ section h1:after {
 }
 
 section h2 {
-  margin: 2px;
+  margin: 3px;
+  padding-bottom: 16px;
   font-size: 1.75em;
   font-weight: 800;
   color: #181818;
@@ -134,16 +135,26 @@ section:nth-child(2) img {
   border-radius: 16px;
   width: 250px;
   height: 250px;
-  margin-top: 10%;
+  margin-top: 8%;
   margin-bottom: 2%;
 }
 
 section:nth-child(2) .container {
-  width: 50%;
+  width: 80%;
+}
+
+@media screen and (min-width: 1200px) {
+  section:nth-child(2) .container {
+    max-width: 50vw;
+  }
 }
 
 section:nth-child(3) {
   background-color: #d8dfe5;
+}
+
+section:nth-child(3) .container {
+  max-width: 80vw;
 }
 
 section:nth-child(4) {
@@ -266,17 +277,16 @@ footer .container {
 /* Projects gallery */
 .projects_gallery {
   position: relative;
-  width: 70vw;
-  text-align: center;
+  width: 69vw;
+  max-width: 2400px;
+  padding-top: 20px;
+  padding-bottom: 60px;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  max-width: 1600px;
-  padding-top: 20px;
-  padding-bottom: 40px;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
 }
 
 .projects_gallery h1 {
@@ -292,6 +302,7 @@ footer .container {
 
 .projects_gallery li {
   position: relative;
+  border-radius: 10px;
   height: 300px;
   background-repeat: no-repeat;
   background-position: 50% 50%;
@@ -303,7 +314,6 @@ footer .container {
   display: block;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .info {
@@ -677,9 +687,8 @@ footer .container {
   padding: 1%;
   border: 1px solid white;
   cursor: pointer;
-  margin-top: 40px;
+  margin-top: 10px;
   margin-left: 10px;
-  margin-bottom: 20px;
   -webkit-transition: ease 0.3s;
   transition: ease 0.3s;
 }
