@@ -39,6 +39,7 @@ header h1 {
   margin: 5px;
   font-weight: 100;
   color: aliceblue;
+  text-align: center;
 }
 
 header p {
@@ -47,7 +48,7 @@ header p {
 }
 
 header a {
-  color: white;
+  color: aliceblue;
   font-weight: bold;
 }
 
@@ -99,12 +100,14 @@ section h1:after {
 
 section h2 {
   margin: 2px;
-  font-size: 1.3em;
+  font-size: 1.75em;
+  font-weight: 800;
+  color: #181818;
 }
 
 section p {
   font-size: 1.5em;
-  color: #0e0f1a;
+  color: #181818;
 }
 
 section a {
@@ -124,7 +127,7 @@ section .container {
 }
 
 section:nth-child(2) {
-  background-color: gainsboro;
+  background-color: aliceblue;
 }
 
 section:nth-child(2) img {
@@ -135,12 +138,16 @@ section:nth-child(2) img {
   margin-bottom: 2%;
 }
 
+section:nth-child(2) .container {
+  width: 50%;
+}
+
 section:nth-child(3) {
-  background-color: #f0f0f0;
+  background-color: #d8dfe5;
 }
 
 section:nth-child(4) {
-  background-color: gainsboro;
+  background-color: aliceblue;
 }
 
 section:nth-child(4) h3 {
@@ -180,7 +187,7 @@ footer p {
 }
 
 footer a {
-  color: white;
+  color: aliceblue;
   font-weight: bold;
 }
 
@@ -219,7 +226,7 @@ footer .container {
 }
 
 #social-container h2 {
-  color: #fff;
+  color: aliceblue;
   font-weight: 100;
 }
 
@@ -228,14 +235,14 @@ footer .container {
 }
 
 #social-container li {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.9);
   list-style-type: none;
   display: inline-block;
   width: 50px;
   height: 50px;
-  line-height: 50px;
+  line-height: 44px;
   padding: 1%;
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.8);
   cursor: pointer;
   margin-left: 10px;
   margin-bottom: 20px;
@@ -393,7 +400,7 @@ footer .container {
       grid-template-columns: repeat(8, 1fr);
   -ms-grid-rows: (1fr)[4];
       grid-template-rows: repeat(4, 1fr);
-  grid-gap: 2vmin;
+  gap: 1.5vmin;
   justify-items: center;
   -webkit-box-align: center;
       -ms-flex-align: center;
@@ -404,15 +411,16 @@ footer .container {
   z-index: 1;
   grid-column: span 2;
   max-width: 100%;
-  margin-bottom: -52%;
+  margin-bottom: -50%;
   -webkit-clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
           clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
   -webkit-transform: scale(1);
           transform: scale(1);
   -webkit-transition: all 1s;
   transition: all 1s;
-  -webkit-filter: blur(0.8px) brightness(0.8);
-          filter: blur(0.8px) brightness(0.8);
+  filter: blur(1px) brightness(0.8);
+  -webkit-filter: blur(1px) brightness(0.8);
+  -moz-filter: blur(1px) brightness(0.8);
 }
 
 .travel_container IMG:nth-child(7n + 1) {
@@ -423,15 +431,22 @@ footer .container {
 
 .travel_container IMG:hover {
   z-index: 2;
-  -webkit-transform: scale(1.75);
-          transform: scale(1.75);
-  -webkit-filter: blur(0) brightness(1);
-          filter: blur(0) brightness(1);
+  -webkit-transform: scale(1.65);
+          transform: scale(1.65);
+  filter: blur(0px) brightness(1);
+  -webkit-filter: blur(0px) brightness(1);
+  -moz-filter: blur(0px) brightness(1);
 }
 
 .charts_container {
   margin-top: 10%;
   overflow: hidden;
+}
+
+.charts_container h4 {
+  font-size: 24px;
+  padding-bottom: 20px;
+  font-weight: 800;
 }
 
 .charts_container .container {
@@ -448,8 +463,9 @@ footer .container {
 }
 
 .charts_container .skillGraphItem {
-  color: #4f4f4f;
+  color: #181818;
   font-size: 16px;
+  font-weight: 800;
   line-height: 20px;
   padding-right: 10px;
   text-align: right;
@@ -657,7 +673,7 @@ footer .container {
   display: inline-block;
   width: 120px;
   height: 50px;
-  line-height: 40px;
+  line-height: 35px;
   padding: 1%;
   border: 1px solid white;
   cursor: pointer;

@@ -26,6 +26,7 @@ header {
         margin: 5px;
         font-weight: 100;
         color: aliceblue;
+        text-align: center;
     }
 
     p {
@@ -34,7 +35,7 @@ header {
     }
 
     a {
-        color: white;
+        color: aliceblue;
         font-weight: bold;
     }
 
@@ -77,12 +78,14 @@ section {
 
     h2 {
         margin: 2px;
-        font-size: 1.3em;
+        font-size: 1.75em;
+        font-weight: 800;
+        color: #181818;
     }
 
     p {
         font-size: 1.5em;
-        color: #0e0f1a;
+        color: #181818;
     }
 
     a {
@@ -100,7 +103,7 @@ section {
 
 //about
 section:nth-child(2) {
-    background-color: rgb(220, 220, 220);
+    background-color: rgb(240, 248, 255);
 
     img {
         border-radius: 16px;
@@ -109,16 +112,20 @@ section:nth-child(2) {
         margin-top: 10%;
         margin-bottom: 2%;
     }
+
+    .container {
+        width: 50%;
+    }
 }
 
 // projects
 section:nth-child(3) {
-    background-color: rgb(240, 240, 240);
+    background-color: rgb(216, 223, 229);
 }
 
 //travels
 section:nth-child(4) {
-    background-color: rgb(220, 220, 220);
+    background-color: rgb(240, 248, 255);
 
     h3 {
         font-family: "Lora", serif;
@@ -157,7 +164,7 @@ footer {
     }
 
     a {
-        color: white;
+        color: aliceblue;
         font-weight: bold;
     }
 
@@ -186,21 +193,21 @@ footer {
     text-align: center;
     font-size: 30px;
     h2 {
-        color: #fff;
+        color: aliceblue;
         font-weight: 100;
     }
     .social {
         padding-left: 0px;
     }
     li {
-        color: rgba(255, 255, 255, 0.8);
+        color: rgba(255, 255, 255, 0.9);
         list-style-type: none;
         display: inline-block;
         width: 50px;
         height: 50px;
-        line-height: 50px;
+        line-height: 44px;
         padding: 1%;
-        border: 1px solid rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.8);
         cursor: pointer;
         margin-left: 10px;
         margin-bottom: 20px;
@@ -342,7 +349,7 @@ footer {
         display: grid;
         grid-template-columns: repeat(8, 1fr);
         grid-template-rows: repeat(4, 1fr);
-        grid-gap: 2vmin;
+        gap: 1.5vmin;
         justify-items: center;
         align-items: center;
     }
@@ -351,11 +358,14 @@ footer {
         z-index: 1;
         grid-column: span 2;
         max-width: 100%;
-        margin-bottom: -52%;
+        margin-bottom: -50%;
         clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
         transform: scale(1);
         transition: all 1s;
-        filter: blur(0.8px) brightness(0.8);
+
+        filter: blur(1px) brightness(0.8);
+        -webkit-filter: blur(1px) brightness(0.8);
+        -moz-filter: blur(1px) brightness(0.8);
 
         &:nth-child(7n + 1) {
             grid-column: 2 / span 2;
@@ -363,8 +373,11 @@ footer {
 
         &:hover {
             z-index: 2;
-            transform: scale(1.75);
-            filter: blur(0) brightness(1);
+            transform: scale(1.65);
+
+            filter: blur(0px) brightness(1);
+            -webkit-filter: blur(0px) brightness(1);
+            -moz-filter: blur(0px) brightness(1);
         }
     }
 }
@@ -383,6 +396,12 @@ footer {
     margin-top: 10%;
     overflow: hidden;
 
+    h4 {
+        font-size: 24px;
+        padding-bottom: 20px;
+        font-weight: 800;
+    }
+
     .container {
         margin: auto;
         margin-top: 50px;
@@ -395,8 +414,9 @@ footer {
         height: 100%;
     }
     .skillGraphItem {
-        color: #4f4f4f;
+        color: #181818;
         font-size: 16px;
+        font-weight: 800;
         line-height: 20px;
         padding-right: 10px;
         text-align: right;
@@ -530,7 +550,7 @@ footer {
         display: inline-block;
         width: 120px;
         height: 50px;
-        line-height: 40px;
+        line-height: 35px;
         padding: 1%;
         border: 1px solid rgba(255, 255, 255, 1);
         cursor: pointer;
