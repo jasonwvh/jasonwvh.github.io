@@ -164,6 +164,7 @@ section:nth-child(4) {
 section:nth-child(4) h3 {
   font-family: "Lora", serif;
   margin: 0;
+  padding: 0;
 }
 
 footer {
