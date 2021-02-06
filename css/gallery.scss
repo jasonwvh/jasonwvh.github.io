@@ -1,0 +1,191 @@
+/* Projects gallery */
+.projects_gallery {
+    position: relative;
+    width: 60vw;
+    max-width: 2400px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.projects_gallery h1 {
+    display: inline-block;
+    font-size: 2.2em;
+    padding: 10px;
+    color: #333;
+}
+
+.projects_gallery ol {
+    list-style: none;
+    padding-left: 0;
+    list-style-position: inside;
+}
+
+.projects_gallery li {
+    position: relative;
+    height: 300px;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: cover;
+}
+
+.projects_gallery a {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 10px 15px;
+    color: #fff;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.9);
+}
+
+.info h3 {
+    font-size: 2em;
+}
+
+.info p {
+    font-size: 0.8em;
+    color: #fff;
+}
+
+/* Viewport <= 420px */
+@media screen and (max-width: 420px) {
+    .projects_gallery {
+        padding-bottom: 10px;
+    }
+
+    .projects_gallery li {
+        height: 400px;
+        width: inherit;
+        margin-bottom: 20px;
+    }
+}
+
+/* Viewport >= 420px */
+@media screen and (min-width: 420px) {
+    .projects_gallery li {
+        width: inherit;
+        float: left;
+        width: 50%;
+    }
+
+    .projects_gallery li:first-child {
+        width: 100%;
+    }
+
+    .projects_gallery li:last-child {
+        margin-bottom: 25px;
+    }
+}
+
+/* Viewport >= 800px */
+@media screen and (min-width: 800px) {
+    .projects_gallery {
+        max-width: 70vw;
+
+        margin: 50px auto 3%;
+    }
+
+    .projects_gallery ol {
+        height: 420px;
+    }
+
+    .projects_gallery li {
+        width: 25%;
+        height: 50%;
+        -webkit-transition: -webkit-transform 1s ease;
+        transition: -webkit-transform 1s ease;
+        transition: transform 1s ease;
+        transition: transform 1s ease, -webkit-transform 1s ease;
+    }
+
+    .projects_gallery li:first-child {
+        width: 50%;
+        height: 100%;
+    }
+
+    .projects_gallery li:first-child h3 {
+        font-size: 1.8em;
+    }
+
+    .projects_gallery li:hover {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+        z-index: 5;
+    }
+
+    .projects_gallery a {
+        -webkit-transition: background-color 1s ease;
+        transition: background-color 1s ease;
+    }
+
+    .projects_gallery a:hover {
+        background-color: rgba(0, 0, 0, 0);
+    }
+
+    .info h3 {
+        font-size: 1.2em;
+    }
+}
+
+// Travel gallery
+.travel_container {
+    margin: 10%;
+
+    .wrapper {
+        position: relative;
+        flex-grow: 1;
+        margin: auto;
+        max-width: 1200px;
+        max-height: 1200px;
+
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        gap: 1.5vmin;
+        justify-items: center;
+        align-items: center;
+    }
+
+    IMG {
+        z-index: 5;
+        grid-column: span 2;
+        max-width: 100%;
+        margin-bottom: -52%;
+        clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+        transform: scale(1);
+
+        filter: blur(1px) brightness(0.8);
+        -webkit-filter: blur(1px) brightness(0.8);
+        -moz-filter: blur(1px) brightness(0.8);
+
+        -webkit-transition: -webkit-transform 1s ease;
+        transition: -webkit-transform 1s ease;
+        transition: transform 1s ease;
+        transition: transform 1s ease, -webkit-transform 1s ease;
+
+        &:nth-child(7n + 1) {
+            grid-column: 2 / span 2;
+        }
+
+        &:hover {
+            z-index: 10;
+            -webkit-transform: scale(1.15);
+            transform: scale(1.15);
+
+            filter: blur(0px) brightness(1);
+            -webkit-filter: blur(0px) brightness(1);
+            -moz-filter: blur(0px) brightness(1);
+
+            -webkit-transition: -webkit-transform 1s ease;
+            transition: -webkit-transform 1s ease;
+            transition: transform 1s ease;
+            transition: transform 1s ease, -webkit-transform 1s ease;
+        }
+    }
+}
