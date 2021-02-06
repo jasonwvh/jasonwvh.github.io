@@ -177,7 +177,8 @@ footer h1 {
   color: aliceblue;
   position: relative;
   text-decoration: none;
-  padding: 5px;
+  padding-top: 60px;
+  padding-bottom: 10px;
 }
 
 footer h1:after {
@@ -194,7 +195,7 @@ footer h1:after {
 
 footer p {
   font-size: 1em;
-  margin: 3%;
+  margin: 20px;
   color: aliceblue;
 }
 
@@ -218,7 +219,7 @@ footer .container {
   -webkit-box-pack: space-evenly;
       -ms-flex-pack: space-evenly;
           justify-content: space-evenly;
-  padding: 3%;
+  padding-bottom: 60px;
   margin: auto;
 }
 
@@ -257,7 +258,6 @@ footer .container {
   border: 1px solid rgba(255, 255, 255, 0.8);
   cursor: pointer;
   margin-left: 10px;
-  margin-bottom: 20px;
   -webkit-transition: ease 0.3s;
   transition: ease 0.3s;
 }
