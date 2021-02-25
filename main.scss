@@ -28,9 +28,9 @@ body {
             min-width: 100%;
             //min-height: 100vh;
             //transform: translate(-50%, -25%);
-            left: -40vw;
-            right: -5vw;
-            bottom: -450px;
+            left: -42vw;
+            right: 50vw;
+            bottom: -475px;
         }
 
         .graphics-man {
@@ -76,7 +76,7 @@ body {
 
             p {
                 margin: 0;
-                font-size: 1.1em;
+                font-size: 1em;
                 color: #f9f2f2;
             }
         }
@@ -88,7 +88,7 @@ body {
 
                 p {
                     padding: 0;
-                    font-size: 1em;
+                    font-size: 0.9em;
                 }
             }
         }
@@ -184,6 +184,11 @@ body {
 
         .about-text {
             font-size: 20px;
+
+            h3 {
+                font-size: 28px;
+                margin-bottom: 20px;
+            }
         }
 
         img {
@@ -307,12 +312,16 @@ body {
                 text-align: left;
                 margin: 0;
                 margin-bottom: 20px;
+                font-size: 26px;
+                font-weight: bold;
             }
 
             .card-text {
                 text-align: left;
                 margin: 0;
                 margin-bottom: 20px;
+                font-size: 16px;
+                font-weight: 400;
             }
 
             a {
@@ -364,7 +373,7 @@ body {
 }
 .section:last-of-type {
     background-color: #424874;
-    color: aliceblue;
+    color: white;
     padding-bottom: 100px;
     padding-top: 100px;
     margin: 0;
@@ -399,6 +408,10 @@ body {
 
     .contact-form {
         width: 400px;
+
+        h5 {
+            margin-bottom: 25px;
+        }
     }
 
     @media (max-width: 768px) {
@@ -508,7 +521,7 @@ body {
     position: absolute;
     display: block;
     top: 29%;
-    left: 50%;
+    left: 52%;
     width: 7px;
     height: 7px;
     margin: -4px 0 0 -4px;
