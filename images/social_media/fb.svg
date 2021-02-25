@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 40 40">
+  <g id="fb" transform="translate(-975.704 -4495)">
+    <path id="fb-2" data-name="fb" d="M0,20A20,20,0,1,1,20,40,20,20,0,0,1,0,20Z" transform="translate(975.704 4495)" fill="#fff"/>
+    <path id="fb-3" data-name="fb" d="M27.708,42V27h4.141l.549-5.17h-4.69l.007-2.587c0-1.348.128-2.071,2.065-2.071h2.589V12H28.227c-4.975,0-6.726,2.508-6.726,6.725v3.1H18.4V27h3.1V42Z" transform="translate(969.972 4488)" fill="#424874"/>
+  </g>
+</svg>
