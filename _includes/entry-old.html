@@ -1,0 +1,36 @@
+{% if post.id %}
+  {% assign title = post.title | markdownify | strip_html %}
+  {% assign link = post.link | markdownify | strip_html %}
+{% else %}
+  {% assign title = post.title %}
+  {% assign link = post.link %}
+{% endif %}
+
+<article class="entry">
+  <a href="{{ post.link }}">
+    <div class="project-wrapper">
+      
+      <header class="entry-header">
+        <h3 class="entry-title">
+          <span>{{ title }}</span>
+        </h3>
+        {% if post.image.thumbnail %}
+          {% assign entry_image = post.image.thumbnail %}
+          {% unless entry_image contains '://' %}
+            {% assign entry_image = entry_image | relative_url %}
+          {% endunless %}
+          {% assign entry_image = entry_image | escape %}
+          <img class="entry-image u-photo" src="{{ entry_image }}" alt="">
+        {% endif %}
+      </header>
+    
+      <div class="entry-excerpt">
+        {% if post.excerpt %}
+          {{ post.excerpt | markdownify }}
+        {% endif %}
+      </div>
+   
+    </div>
+  </a>
+
+</article>

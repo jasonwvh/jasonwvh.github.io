@@ -1,0 +1,85 @@
+---
+layout: homepage-default
+---
+
+<article class="post">
+    <header class="post-header">
+        <h1 class="post-title">{{ page.title | escape }}</h1>
+    </header>
+
+    <div class="latest-posts">
+        <h1>Latest Posts</h1>
+        <hr />
+        <ul class="post-list">
+            {%- assign date_format = site.date_format | default: "%b %-d, %Y"
+            -%} {%- for post in site.posts limit:3 -%}
+            <li>
+                <div class="post-date">
+                    <span class="post-meta"
+                        >{{ post.date | date: date_format }}</span
+                    >
+                </div>
+                <div class="post-text">
+                    <h3>
+                        <a
+                            class="post-link"
+                            href="{{ post.url | relative_url }}"
+                        >
+                            {{ post.title | escape }}
+                        </a>
+                    </h3>
+                </div>
+
+                {%- if site.show_excerpts -%} {{ post.excerpt }} {%- endif -%}
+            </li>
+            {%- endfor -%}
+        </ul>
+    </div>
+
+    <br />
+    <div class="latest-posts">
+        <h1>Recent Projects</h1>
+        <hr />
+        <div class="recent-projects">
+            {% for project in site.projects limit:3 %}
+            <div class="project-item">
+                <a href="{{ project.link }}">{{ project.title }}</a>
+                <p>{{ project.description }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <br />
+    <div class="latest-posts">
+        <div style="display: flex; justify-content: space-between">
+            <h1 style="display: inline">Services</h1>
+            <span>Status: Available</span>
+        </div>
+        <hr />
+        <p>
+            Want to support me? Give me a job! I provide the following services:
+        </p>
+        <div class="recent-projects">
+            <div class="project-item">
+                <p>Web Design</p>
+                <p>
+                    I will help you design the layout of your website with Adobe
+                    XD.
+                </p>
+            </div>
+            <div class="project-item">
+                <p>Full-Stack Development</p>
+                <p>
+                    I will design, develop and deploy the entire application on
+                    the server of your choosing.
+                </p>
+            </div>
+            <div class="project-item">
+                <p>Android Development</p>
+                <p>I will develop an Android application for you.</p>
+            </div>
+        </div>
+        <br />
+    </div>
+</article>

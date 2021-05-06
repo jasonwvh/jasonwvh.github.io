@@ -1,0 +1,49 @@
+url: "" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "" # the subpath of your site, e.g. /blog
+
+title: "jasonwvh" # the name of your site, e.g. ACME Corp.
+
+author:
+    name: Jason Wong
+    email: jason.wongvh@gmail.com
+
+description: >
+    This is a description
+
+date_format: "%b %-d"
+social_links:
+    # twitter: jekyllrb
+    github: jasonwvh
+    # devto: jekyll
+    # dribbble: jekyll
+    facebook: jasonw0202
+    # flickr:   jekyll
+    instagram: jasonwvh
+    linkedin: jasonwvh
+    # pinterest: jekyll
+    # youtube: jekyll
+    # youtube_channel: UC8CXR0-3I70i1tfPg1PAE1g
+    # youtube_channel_name: CloudCannon
+    # telegram: jekyll
+    # googleplus: +jekyll
+    # microdotblog: jekyll
+    # keybase: jekyll
+
+collections:
+    projects:
+        output: true
+
+# Front Matter Defaults
+defaults:
+    # _posts
+    - scope:
+          path: "_posts"
+          type: posts
+      values:
+          layout: post
+    # _projects
+    - scope:
+          path: "_projects"
+          type: projects
+      values:
+          layout: post

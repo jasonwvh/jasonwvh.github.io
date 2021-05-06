@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+
+  {%- include head.html -%}
+
+  <body>
+
+    {%- include header.html -%}
+    <div class="intro">
+      <div class="wrapper">
+        <div class="intro-text">
+          <h1>I'm Jason Wong</h1>
+          <p>I'm a 20-something years old software developer from Malaysia. Currently, my interest lies in Cloud and Machine Learning. On top of coding, I like to spend my time reading books, playing sports, and travelling.</p>
+      </div>
+      <div class="intro-img">
+          <img
+              src="https://jasonwvh-images.oss-ap-southeast-3.aliyuncs.com/me.jpg"
+              class="card-img"
+              alt=""
+          />
+      </div>
+    </div>
+
+  </div>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        {{ content }}
+      </div>
+    </main>
+
+    {%- include footer.html -%}
+
+  </body>
+
+</html>
