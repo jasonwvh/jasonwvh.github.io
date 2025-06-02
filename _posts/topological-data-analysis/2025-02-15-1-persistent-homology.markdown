@@ -9,8 +9,6 @@ published: true
 
 ## Introduction
 
-After reconstructing the dynamics of network traffic using **time-delay embeddings**, we gain a high-dimensional point cloud representing the system’s state space. But how do we extract meaningful, robust features from this complex geometric shape?
-
 **Topological Data Analysis (TDA)** offers powerful tools from algebraic topology to analyze the *shape* of data. Unlike traditional statistical methods, TDA captures *global* and *multi-scale* structural features that are invariant to noise and deformation — perfect for complex, nonlinear network traffic data.
 
 ---
@@ -37,54 +35,33 @@ Persistent homology tracks topological features across multiple scales.
 
 ---
 
-## Why Use TDA for Network Traffic?
+## Applying Persistent Homology 
 
-- Network traffic data is noisy and nonlinear.  
-- TDA is **robust to noise and deformation**, ideal for real-world data.  
-- Reveals hidden periodicities and regime structures (loops or holes).  
-- Can improve anomaly detection by capturing changes in topological features.
+Assuming we have a point cloud \( \mathbf{X} \):
 
----
-
-## Example Workflow: Applying Persistent Homology on Embedded Traffic Data
-
-Assuming we have a time-delay embedded point cloud \( \mathbf{X} \) from the previous post:
-
-### Step 1: Install Ripser (Fast Persistent Homology Computation)
-
-```bash
-pip install ripser
-Step 2: Compute Persistent Homology
-python
-Copy
-Edit
+```python
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.datasets import make_circles
 from ripser import ripser
 from persim import plot_diagrams
 
-# Assume `embedded` is the time-delay embedded data from previous post
-diagrams = ripser(embedded)['dgms']
+point_cld, labels = make_circles(n_samples=2000, noise=0.05, factor=0.3, random_state=42)
 
-# Plot persistence diagrams for H0 (connected components) and H1 (loops)
+diagrams = ripser(point_cld)['dgms']
 plot_diagrams(diagrams, show=True)
 ```
 
-Interpreting the Persistence Diagrams
+![](/assets/images/understanding-ph/ph_005.png)
+![](/assets/images/understanding-ph/ph_01.png)
+![](/assets/images/understanding-ph/ph_05.png)
+
+## Interpreting the Persistence Diagrams
 H0 diagram: Points far from the diagonal correspond to long-lasting connected components (clusters).
 
 H1 diagram: Points far from the diagonal correspond to persistent loops, which may represent cycles or periodic behavior in the traffic dynamics.
 
-Integrating TDA with Machine Learning
-Extract persistence statistics (e.g., number of features, lifetimes) as input features for classifiers or anomaly detectors.
-
-Combine with other features (entropy, ARIMA residuals, etc.) for richer models.
-
-Use persistence images or landscapes as vectorized representations suitable for deep learning.
-
-Summary
-TDA provides a novel, geometry-driven perspective to analyze complex network traffic dynamics.
+## Summary
+TDA provides a novel, geometry-driven perspective to analyze data.
 
 Persistent homology reveals multi-scale topological features robust to noise.
-
-Combining TDA with embeddings and statistical features can significantly improve anomaly detection and understanding of network behaviors.

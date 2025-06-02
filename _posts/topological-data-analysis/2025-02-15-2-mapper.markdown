@@ -9,6 +9,7 @@ published: true
 
 ## Introduction
 
+Mapper is a topological data analysis algorithm that simplifies complex datasets by capturing their shape and structure. It creates a graph (simplicial complex) that highlights clusters, loops, and connections, making it easier to visualize and understand high-dimensional or noisy data. Mapper is especially useful for revealing patterns that traditional clustering or dimensionality reduction methods might miss.
 
 ## Simulating Data
 
