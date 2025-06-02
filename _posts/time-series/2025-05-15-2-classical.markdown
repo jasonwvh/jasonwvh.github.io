@@ -1,0 +1,181 @@
+---
+layout: post
+title:  "Time Series Part 2: Classical Time Series"
+date:   2025-05-15 14:19:38 +0800
+categories: time-series
+published: false
+---
+
+Welcome to Part 2 of our time series analysis series! In Part 1, we explored time series basics—trends, seasonality, noise, and stationarity—using Python to visualize and test data. Now, we’re diving into classical univariate models: autoregressive (AR), moving average (MA), ARMA, and ARIMA. These models help us forecast future values in time series, like predicting network traffic or server load, by capturing patterns in historical data. 
+
+---
+
+## Why Classical Univariate Models?
+
+Time series data, like packet counts or sensor readings, often follows patterns we can model to predict future behavior. Classical models like ARIMA are powerful for univariate time series (one variable over time) and assume stationarity (from Part 1). They’re intuitive, computationally efficient, and widely used in system monitoring and data analysis. In this post, we’ll:
+
+- Explain AR, MA, ARMA, and ARIMA intuitively.
+- Use Python to fit an ARIMA model to a synthetic dataset.
+- Diagnose model fit with residuals.
+- Connect to random walks, setting up seasonal and multivariate models (Parts 3–5).
+
+---
+
+## 1. Autoregressive (AR) Models: Learning from the Past
+
+### What Is an AR Model?
+
+An autoregressive (AR) model predicts the next value in a time series based on a linear combination of past values. Think of it as a system “remembering” its recent history, like network traffic depending on the last few hours’ activity.
+
+For an AR model of order \( p \), denoted AR(p):
+
+\[
+y_t = c + \phi_1 y_{t-1} + \phi_2 y_{t-2} + \dots + \phi_p y_{t-p} + \epsilon_t
+\]
+
+where:
+
+- \( y_t \): Value at time \( t \)
+- \( c \): Constant term
+- \( \phi_i \): Coefficients for past values
+- \( \epsilon_t \): Random noise (mean 0, variance \( \sigma^2 \))
+
+An AR(1) model (\( y_t = c + \phi_1 y_{t-1} + \epsilon_t \)) is like a random walk (Stochastic Part 1) if \( \phi_1 = 1 \), but with stationary noise for \( |\phi_1| < 1 \).
+
+---
+
+## 2. Moving Average (MA) Models: Smoothing Noise
+
+### What Is an MA Model?
+
+A moving average (MA) model predicts the next value based on past forecast errors (noise terms), not past values. It’s like modeling traffic fluctuations as a weighted sum of recent “surprises.”
+
+For an MA model of order \( q \), denoted MA(q):
+
+\[
+y_t = c + \epsilon_t + \theta_1 \epsilon_{t-1} + \theta_2 \epsilon_{t-2} + \dots + \theta_q \epsilon_{t-q}
+\]
+
+where:
+
+- \( \theta_i \): Coefficients for past errors
+- \( \epsilon_t \): Noise at time \( t \)
+
+An MA(1) model smooths out random shocks over one step.
+
+---
+
+## 3. ARMA Models: Combining AR and MA
+
+### What Is an ARMA Model?
+
+An ARMA model combines AR and MA to capture both past values and errors. For an ARMA(p, q):
+
+\[
+y_t = c + \phi_1 y_{t-1} + \dots + \phi_p y_{t-p} + \epsilon_t + \theta_1 \epsilon_{t-1} + \dots + \theta_q \epsilon_{t-q}
+\]
+
+ARMA works for stationary series, blending AR’s memory and MA’s noise smoothing.
+
+**Why Use ARMA?**
+
+ARMA is versatile for stationary data:
+
+- **System Metrics:** Model stable server loads.
+- **Networking:** Predict steady-state traffic.
+
+---
+
+## 4. ARIMA Models: Handling Non-Stationary Data
+
+### What Is an ARIMA Model?
+
+An ARIMA model (AutoRegressive Integrated Moving Average) extends ARMA to non-stationary series by adding differencing (Part 1) to achieve stationarity. Denoted ARIMA(p, d, q):
+
+- \( p \): AR order
+- \( d \): Number of differences
+- \( q \): MA order
+
+For example, ARIMA(1,1,0) is a differenced AR(1) model, akin to a random walk with drift.
+
+---
+
+## Fitting an ARIMA Model in Python
+
+Let’s simulate a non-stationary time series (like network traffic with a trend) and fit an ARIMA model.
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from statsmodels.tsa.arima.model import ARIMA
+from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
+
+# Set random seed
+np.random.seed(42)
+
+# Generate synthetic time series (100 hours)
+t = np.arange(100)
+trend = 0.5 * t
+noise = np.random.normal(0, 5, 100)
+series = trend + noise  # Non-stationary (trend)
+
+# Fit ARIMA(1,1,0)
+model = ARIMA(series, order=(1, 1, 0))
+fit = model.fit()
+forecast = fit.forecast(steps=10)
+
+# Plot series and forecast
+plt.figure(figsize=(10, 6))
+plt.plot(t, series, label='Time Series')
+plt.plot(np.arange(100, 110), forecast, label='Forecast', linestyle='--')
+plt.title('ARIMA(1,1,0) Model: Series and Forecast')
+plt.xlabel('Time (hours)')
+plt.ylabel('Value (e.g., Packets/Second)')
+plt.grid(True)
+plt.legend()
+plt.savefig('arima_forecast.png')
+```
+
+This code simulates a trending series, fits an ARIMA(1,1,0) model (differencing once), and forecasts 10 steps. The plot shows the series and forecast extending the trend.
+
+---
+
+## Diagnosing the Model: Residuals
+
+A good model’s residuals (errors) should be random (white noise). Let’s check the residuals’ autocorrelation.
+
+```python
+# Plot residuals
+residuals = fit.resid
+plt.figure(figsize=(10, 6))
+plt.plot(residuals, label='Residuals')
+plt.title('ARIMA Residuals')
+plt.xlabel('Time')
+plt.ylabel('Residual')
+plt.grid(True)
+plt.legend()
+plt.savefig('arima_residuals.png')
+
+# ACF plot
+plot_acf(residuals, lags=20)
+plt.savefig('acf_residuals.png')
+```
+
+The ACF plot should show no significant correlations, indicating a good fit. Try ARIMA(1,1,1) if residuals show patterns!
+
+---
+
+## Model Selection: AIC and BIC
+
+To choose \( p \), \( d \), and \( q \), use:
+
+- **AIC (Akaike Information Criterion):** Balances fit and complexity (lower is better).
+- **BIC (Bayesian Information Criterion):** Similar, but penalizes complexity more.
+
+The fitted model’s summary includes AIC/BIC:
+
+```python
+print(fit.summary())
+```
+
+Compare models (e.g., ARIMA(1,1,0) vs. ARIMA(1,1,1)) to pick the best.

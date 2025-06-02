@@ -1,0 +1,218 @@
+---
+layout: post
+title:  "Stochastic Processes Part 5: A Case Study"
+date:   2025-04-30 14:19:38 +0800
+categories: statistics
+published: false
+---
+
+Welcome to the final part of our stochastic processes series! We’ve covered:
+
+- **Part 1:** Random walks and Markov chains  
+- **Part 2:** Poisson and compound Poisson processes  
+- **Part 3:** Wiener process, Geometric Brownian Motion (GBM), and Continuous-Time Markov Chains (CTMCs)  
+- **Part 4:** Jump-diffusion and Monte Carlo methods  
+
+Now, we’re wrapping up with a case study on detecting anomalies in network traffic (packets/second).
+
+---
+
+## Case Study: Detecting Network Traffic Anomalies
+
+### The Problem
+
+You’re monitoring a network where traffic (packets/second) shows trends, fluctuations, and occasional spikes due to user surges or system events. Your goals are:
+
+- Model traffic to capture normal and anomalous patterns.
+- Detect spikes for system alerts.
+- Estimate spike probability to manage risks.
+
+We’ll use a synthetic hourly time series (168 hours, 7 days) with jump-diffusion dynamics, mimicking real network data.
+
+---
+
+## Step 1: Generating and Exploring the Data
+
+Let’s simulate traffic with jump-diffusion (Part 4), including trends, diffusion, and Poisson jumps.
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Set random seed
+np.random.seed(45)
+
+# Parameters
+T = 168  # 7 days
+N = 168  # Hourly steps
+dt = 1.0  # 1 hour
+X0 = 100  # Initial traffic
+mu = 0.01  # Drift
+sigma = 0.05  # Volatility
+lam = 0.05  # Jump rate
+jump_mean, jump_std = 50, 10  # Jump size
+
+# Simulate jump-diffusion
+t = np.arange(N+1)
+X = np.zeros(N+1)
+X[0] = X0
+dW = np.random.normal(0, np.sqrt(dt), N)
+jumps = np.random.poisson(lam * dt, N)
+jump_sizes = np.random.normal(jump_mean, jump_std, N) * jumps
+for i in range(N):
+    X[i+1] = X[i] + mu * X[i] * dt + sigma * X[i] * dW[i] + jump_sizes[i]
+
+# Plot
+plt.figure(figsize=(12, 6))
+plt.plot(t, X, label='Network Traffic')
+plt.title('Synthetic Network Traffic (Jump-Diffusion)')
+plt.xlabel('Time (hours)')
+plt.ylabel('Packets/Second')
+plt.grid(True)
+plt.legend()
+plt.savefig('traffic_series.png')
+```
+
+This shows trending traffic with spikes, like peak network usage.
+
+---
+
+## Step 2: Modeling with Jump-Diffusion (Part 4)
+
+The traffic follows a jump-diffusion process:
+
+\[
+dX_t = \mu X_t dt + \sigma X_t dW_t + J_t dN_t
+\]
+
+Let’s estimate parameters.
+
+```python
+# Estimate parameters
+returns = np.diff(np.log(X[1:]))
+mu_est = np.mean(returns) / dt
+sigma_est = np.std(returns) / np.sqrt(dt)
+jump_times = np.where(jumps > 0)[0]
+lambda_est = len(jump_times) / T
+jump_sizes_est = jump_sizes[jump_times]
+jump_mean_est = np.mean(jump_sizes_est) if len(jump_sizes_est) > 0 else 0
+print(f'Estimated: mu={mu_est:.3f}, sigma={sigma_est:.3f}, lambda={lambda_est:.3f}, jump_mean={jump_mean_est:.3f}')
+```
+
+This helps understand trend, volatility, and jump patterns.
+
+---
+
+## Step 3: Detecting Anomalies with HMMs (Part 1 Inspiration)
+
+HMMs, extending Markov chains (Part 1), model hidden states (normal, high-traffic). We’ll use a Gaussian HMM to detect spikes.
+
+```python
+from hmmlearn.hmm import GaussianHMM
+
+# Fit HMM
+X_reshaped = X.reshape(-1, 1)
+model = GaussianHMM(n_components=2, covariance_type='diag', n_iter=100)
+model.fit(X_reshaped)
+states = model.predict(X_reshaped)
+
+# Identify high-traffic state
+means = model.means_.flatten()
+high_state = np.argmax(means)
+anomalies = states == high_state
+anomaly_indices = np.where(anomalies)[0]
+anomaly_values = X[anomaly_indices]
+
+# Plot
+plt.figure(figsize=(12, 6))
+plt.plot(t, X, label='Network Traffic')
+plt.scatter(anomaly_indices, anomaly_values, color='red', label='Anomalies (HMM)', zorder=5)
+plt.title('Network Traffic with HMM-Detected Anomalies')
+plt.xlabel('Time (hours)')
+plt.ylabel('Packets/Second')
+plt.grid(True)
+plt.legend()
+plt.savefig('hmm_anomalies.png')
+```
+
+The HMM flags high-traffic periods, capturing spikes.
+
+---
+
+## Step 4: Threshold-Based Anomaly Detection (Time Series Part 5)
+
+Let’s compare with a threshold-based method (Time Series Part 5), flagging traffic exceeding 2 standard deviations from a moving average.
+
+```python
+# Moving average and threshold
+window = 24
+ma = np.convolve(X, np.ones(window)/window, mode='valid')
+ma_full = np.pad(ma, (window-1, 0), mode='edge')
+std = np.std(X - ma_full)
+threshold = ma_full + 2 * std
+anomalies_thresh = X > threshold
+anomaly_indices_thresh = np.where(anomalies_thresh)[0]
+anomaly_values_thresh = X[anomaly_indices_thresh]
+
+# Plot
+plt.figure(figsize=(12, 6))
+plt.plot(t, X, label='Network Traffic')
+plt.plot(t, threshold, label='Threshold', linestyle='--')
+plt.scatter(anomaly_indices_thresh, anomaly_values_thresh, color='red', label='Anomalies (Threshold)', zorder=5)
+plt.title('Network Traffic with Threshold-Detected Anomalies')
+plt.xlabel('Time (hours)')
+plt.ylabel('Packets/Second')
+plt.grid(True)
+plt.legend()
+plt.savefig('threshold_anomalies.png')
+```
+
+This highlights extreme spikes, complementing the HMM.
+
+---
+
+## Step 5: Estimating Anomaly Probability with Monte Carlo (Part 4)
+
+Let’s estimate the probability of traffic exceeding 150 packets/second in the next 24 hours using Monte Carlo (Part 4).
+
+```python
+# Monte Carlo parameters
+n_sim = 1000
+threshold = 150
+future_steps = 24
+exceed = np.zeros(n_sim)
+
+# Simulate future paths
+for j in range(n_sim):
+    X_sim = np.zeros(future_steps+1)
+    X_sim[0] = X[-1]
+    for i in range(future_steps):
+        dW = np.random.normal(0, np.sqrt(dt))
+        jump = np.random.poisson(lam * dt)
+        jump_size = np.random.normal(jump_mean, jump_std) * jump
+        X_sim[i+1] = X_sim[i] + mu * X_sim[i] * dt + sigma * X_sim[i] * dW + jump_size
+    exceed[j] = np.any(X_sim > threshold)
+prob = np.mean(exceed)
+print(f'Probability of Traffic > {threshold} in 24 Hours: {prob:.3f}')
+
+# Plot sample paths
+plt.figure(figsize=(12, 6))
+for j in range(5):
+    X_sim = np.zeros(future_steps+1)
+    X_sim[0] = X[-1]
+    for i in range(future_steps):
+        dW = np.random.normal(0, np.sqrt(dt))
+        jump = np.random.poisson(lam * dt)
+        jump_size = np.random.normal(jump_mean, jump_std) * jump
+        X_sim[i+1] = X_sim[i] + mu * X_sim[i] * dt + sigma * X_sim[i] * dW + jump_size
+    plt.plot(np.arange(N, N+future_steps+1), X_sim, alpha=0.5)
+plt.axhline(threshold, color='red', linestyle='--', label='Threshold')
+plt.title('Monte Carlo: Future Traffic Paths')
+plt.xlabel('Time (hours)')
+plt.ylabel('Packets/Second')
+plt.grid(True)
+plt.legend()
+plt.savefig('monte_carlo_forecast.png')
+```
+
+This quantifies spike risk, aiding system planning.
