@@ -3,7 +3,7 @@ layout: post
 title:  "Stochastic Processes Part 4: Renewal Processes and Queueing Theory"
 date:   2025-04-30 14:19:38 +0800
 categories: statistics
-published: false
+published: true
 ---
 
 ### Renewal Theory

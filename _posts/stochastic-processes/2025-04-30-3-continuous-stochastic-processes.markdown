@@ -3,7 +3,7 @@ layout: post
 title:  "Stochastic Processes Part 3: Continuous Stochastic Processes"
 date:   2025-04-30 14:19:38 +0800
 categories: statistics
-published: false
+published: true
 ---
 
 ### Poisson Process
