@@ -29,6 +29,7 @@ linkedin_username: jasonwvh
 
 # Build settings
 theme: minima
+markdown: kramdown
 # plugins:
 #   - jekyll-feed
 
