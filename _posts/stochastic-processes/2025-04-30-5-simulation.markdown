@@ -1,10 +1,14 @@
 ---
 layout: post
-title:  "Stochastic Processes Part 5: Simulation"
+title:  "Probability 5: Simulation"
 date:   2025-04-30 14:19:38 +0800
 categories: statistics
 published: true
 ---
+
+## Probability 5: Simulation
+
+How do we study stochastic processes that are too complex to analyze with pure mathematics? The answer is simulation. By generating random numbers that mimic the behavior of a system, we can run computational experiments to understand its properties. This post explores the fundamental techniques for simulating stochastic processes. We'll cover methods for generating random variables, from the inverse transform method to the acceptance-rejection method, and see how to simulate classic processes like Markov chains and Poisson processes. Finally, we'll touch on the Monte Carlo method, a powerful approach for estimating complex quantities through repeated random sampling.
 
 ### Why Simulate?
 
@@ -13,8 +17,6 @@ Many real-world systems, from a city's traffic flow to the risk profile of a fin
 **Simulation** offers a powerful alternative. By using a computer to generate artificial data that mimics a real-world process, we can estimate probabilities, calculate expected values, and understand the behavior of a system without needing a closed-form solution. The core idea, often called the **Monte Carlo method**, is to use randomness to solve problems that may appear deterministic.
 
 At the heart of every simulation is the ability to generate numbers that "look" random and, more importantly, to transform those numbers into the specific random variables that drive our model.
-
----
 
 ### Generating Random Variables
 
@@ -52,8 +54,6 @@ The algorithm is as follows:
 3.  **Accept** $Y$ as your sample if $U \le \frac{f(Y)}{c \cdot g(Y)}$. Otherwise, **reject** it and return to step 1.
 
 Essentially, we use the simpler distribution to propose candidates and then accept them with a certain probability that ensures the final accepted values conform to the target distribution $f(x)$.
-
----
 
 ### Simulating a System
 

@@ -1,13 +1,12 @@
 ---
 layout: default
-title: "Authentication Part 2: OAuth 1.0"
+title: "Authentication 2: OAuth 1.0 Simplified"
 date: 2025-01-10 10:00:00 -0000
 categories: cybersecurity
-published: false
+published: true
 ---
 
-## The Cryptographic Rigor of OAuth 1.0
-Welcome back to our series on identity and federation. In [Part 1](/cybersecurity/identity-federation/2025/07/09/1-saml.html), we covered SAML for enterprise SSO. Now, we turn to the original protocol that set the stage for modern API security: **OAuth 1.0**.
+## OAuth 1.0 Simplified
 
 Released in 2007, OAuth 1.0 introduced a standard for delegated authorization. Its primary goal was to solve the "password anti-pattern" by allowing a third-party application (a "Consumer") to access a user's data on a "Service Provider" without the user having to share their credentials. Its defining characteristic is a security model built directly into the protocol through **cryptographic signatures**, making it independent of transport-layer security.
 

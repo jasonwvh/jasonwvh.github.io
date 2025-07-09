@@ -1,10 +1,14 @@
 ---
 layout: post
-title:  "Convolutional Neural Networks Simplified"
+title:  "Machine Learning 2: Convolutional Neural Networks Simplified"
 date:   2025-07-01 14:19:38 +0800
 categories: machine-learning
 published: true
 ---
+
+## Convolutional Neural Networks Simplified
+
+How does a machine learn to see? The answer lies in Convolutional Neural Networks (CNNs), a class of deep learning models that have revolutionized computer vision. Unlike standard networks, CNNs are inspired by the human visual cortex, using specialized layers to recognize patterns, from simple edges to complex objects. This post breaks down the essential components of a CNN, including the feature-detecting convolution layers, the down-sampling pooling layers, and the classic architectures like LeNet, AlexNet, and ResNet that have defined the field.
 
 ### The Convolution Layer
 

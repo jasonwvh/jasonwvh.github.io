@@ -1,15 +1,14 @@
 ---
 layout: default
-title: "Authentication Part 5: OpenID Federation"
+title: "Authentication 5: OpenID Federation 1.0"
 date: 2025-01-10 10:00:00 -0000
 categories: cybersecurity
-published: false
+published: true
 ---
 
-## OpenID Federation
-Welcome to the final installment of our identity series. We've journeyed from [SAML](/cybersecurity/identity-federation/2025/07/09/1-saml.html), through [OAuth 1.0](/cybersecurity/identity-federation/2025/07/10/2-oauth1.html) and [OAuth 2.0](/cybersecurity/identity-federation/2025/07/11/3-oauth2.html), and landed on the modern authentication standard, [OpenID Connect](/cybersecurity/identity-federation/2025/07/12/4-oidc.html). OIDC excels at enabling a Relying Party (RP) to trust an OpenID Provider (OP).
+## OpenID Federation 1.0 Simplified
 
-But its standard discovery mechanism (`.well-known/openid-configuration`) only works for a single, pre-configured issuer. How do you build an ecosystem where thousands of RPs can dynamically discover and trust thousands of OPs without error-prone manual configuration? This is the challenge that **OpenID Federation** is designed to solve.
+How do you build an ecosystem where thousands of RPs can dynamically discover and trust thousands of OPs without error-prone manual configuration? This is the challenge that **OpenID Federation** is designed to solve.
 
 ### The Problem: Scaling Trust Beyond Manual Configuration
 

@@ -1,17 +1,15 @@
 ---
 layout: post
-title:  "Understanding Mapper"
+title:  "Topological Data Analysis 2: Understanding Mapper"
 date:   2025-04-15 14:19:38 +0800
 categories: topological-data-analysis
 published: true
-
 ---
 
-## Introduction
-
+## Understanding Mapper
 Mapper is a topological data analysis algorithm that simplifies complex datasets by capturing their shape and structure. It creates a graph (simplicial complex) that highlights clusters, loops, and connections, making it easier to visualize and understand high-dimensional or noisy data. Mapper is especially useful for revealing patterns that traditional clustering or dimensionality reduction methods might miss.
 
-## Simulating Data
+### Simulating Data
 
 Given two distinct circles in a point cloud
 ```python
@@ -31,7 +29,7 @@ plt.show()
 
 ![](/assets/images/understanding-mapper/data_nonoise.png)
 
-## Visualizing Mapper
+### Visualizing Mapper
 
 Before using Mapper, we will select the `l2norm` distance function to reduce our 2D data into 1D.
 
@@ -66,7 +64,7 @@ Running the Mapper algorithm, we see two distinct, unconnected clusters.
 
 ![](/assets/images/understanding-mapper/mapper_nonoise.png)
 
-## Increasing Noise
+### Increasing Noise
 What if we increase the noise
 
 ![](/assets/images/understanding-mapper/data_noise.png)
@@ -75,7 +73,7 @@ The clusters will merge
 
 ![](/assets/images/understanding-mapper/mapper_noise.png)
 
-## Adding dimensions
+### Adding dimensions
 Mapper allows multiple lenses to give the graphs more information. 
 
 For example, we can combine anomalies metrics from `IsolationForest` or  with distance metrics from `l2norm` or `PCA`
@@ -104,5 +102,5 @@ G = mapper.map(
 Plotting the lenses on the graph, we can see what it does to our original data
 ![](/assets/images/understanding-mapper/lenses_comparison.png)
 
-## Conclusion
+### Conclusion
 Mapper allows us to easily visualize the different clusters in data in simplicial complexes.

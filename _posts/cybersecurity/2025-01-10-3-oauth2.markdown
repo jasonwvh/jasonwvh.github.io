@@ -1,13 +1,14 @@
 ---
 layout: default
-title: "Authentication Part 3: OAuth 2.0"
+title: "Authentication 3: OAuth 2.0 Simplified"
 date: 2025-01-10 10:00:00 -0000
 categories: cybersecurity
-published: false
+published: true
 ---
 
-## The Simplicity and Power of OAuth 2.0
-Welcome to the third part of our series on identity and federation. After covering [SAML in Part 1](/cybersecurity/identity-federation/2025/07/09/1-saml.html) and the cryptographic complexities of [OAuth 1.0 in Part 2](/cybersecurity/identity-federation/2025/07/10/2-oauth1.html), we now arrive at its successor: **OAuth 2.0**. Published in 2012, OAuth 2.0 is not a new version but a complete rewrite, designed to prioritize simplicity, flexibility, and support for a wider range of clients, including browser-based JavaScript applications and native mobile apps.
+## OAuth 2.0 Simplified
+
+Published in 2012, OAuth 2.0 is not a new version but a complete rewrite, designed to prioritize simplicity, flexibility, and support for a wider range of clients, including browser-based JavaScript applications and native mobile apps.
 
 ### The Paradigm Shift: From Signed Requests to Bearer Tokens over TLS
 

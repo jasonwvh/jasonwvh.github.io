@@ -1,10 +1,14 @@
 ---
 layout: post
-title:  "Stochastic Processes Part 3: Continuous Stochastic Processes"
+title:  "Probability 3: Continuous Stochastic Processes"
 date:   2025-04-30 14:19:38 +0800
 categories: statistics
 published: true
 ---
+
+## Probability 3: Continuous Stochastic Processes
+
+Not all random phenomena occur in discrete steps; many evolve continuously through time. This post delves into the world of continuous-time stochastic processes, where change can happen at any instant. We will explore key examples, including the Poisson process, which counts random events over time, and the elegant, ever-present Brownian motion, which describes random walks. We'll also touch upon the more general Lévy processes, providing a powerful toolkit for modeling continuous random systems in fields ranging from physics to finance.
 
 ### Poisson Process
 

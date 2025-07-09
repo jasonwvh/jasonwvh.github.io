@@ -1,10 +1,14 @@
 ---
 layout: post
-title:  "Stochastic Processes Part 4: Renewal Processes and Queueing Theory"
+title:  "Probability 4: Renewal Processes and Queueing Theory"
 date:   2025-04-30 14:19:38 +0800
 categories: statistics
 published: true
 ---
+
+## Probability 4: Renewal Processes and Queueing Theory
+
+From customers waiting in line to data packets navigating a network, queues are a fundamental part of modern life. Queueing theory uses the tools of stochastic processes to mathematically analyze these waiting lines, helping us predict wait times and optimize system performance. This post introduces two core concepts: renewal processes, which model the time between random events, and their direct application in queueing theory. We will explore the key characteristics of a queue, understand the elegant simplicity of Little's Law, and analyze the classic M/M/1 queue to see how these models work in practice.
 
 ### Renewal Theory
 

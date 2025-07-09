@@ -1,27 +1,26 @@
 ---
 layout: post
-title:  "Understanding Takens"
+title:  "Topological Data Analysis 3: Understanding Takens's Embedding"
 date:   2025-04-15 14:19:38 +0800
 categories: topological-data-analysis
 published: true
-
 ---
 
-## Introduction
+## Understanding Takens's Embedding
 Takens's Embedding allow us to reconstruct the original time series with only a partial observed time series. We will see its effect on persistent homology.
 
-## Simulation
+### Simulation
 Starting with a simple sine wave
 ![](/assets/images/understanding-takens/signal.png)
 
-### Experiment 1: Applying Takens's embedding to segments of the original data
+#### Experiment 1: Applying Takens's embedding to segments of the original data
 We break the signal into segments, applying Takens's embedding on the segments, then concatenate them all
 
 ![](/assets/images/understanding-takens/takens.png)
 
 We see that it closely resembles shape when applying to the whole dataset at once.
 
-### Experiment 2: Persistent homology on signal and Takens's embedding
+#### Experiment 2: Persistent homology on signal and Takens's embedding
 
 #### Original
 ![](/assets/images/understanding-takens/pd_signal.png)
@@ -31,5 +30,5 @@ We see that it closely resembles shape when applying to the whole dataset at onc
 
 We see that aside from the additional points on the diagonal line, the persistence remains similar
 
-### Conclusion
+## Conclusion
 We can say Takens's embedding is able to reconstruct the original time series with a certain confidence interval.

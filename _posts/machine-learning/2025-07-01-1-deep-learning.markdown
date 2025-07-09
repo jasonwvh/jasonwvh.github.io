@@ -1,10 +1,14 @@
 ---
 layout: post
-title:  "Deep Learning Simplified"
+title:  "Machine Learning 1: Deep Learning"
 date:   2025-07-01 14:19:38 +0800
 categories: machine-learning
 published: true
 ---
+
+## Deep Learning Simplified
+
+Deep learning is the powerhouse behind many of modern AI's most impressive feats, from understanding human speech to generating realistic images. But at its core, it's built upon a foundation of surprisingly elegant mathematical concepts. This post demystifies the building blocks of deep learning, starting from the simple line-fitting of linear regression and advancing to the core mechanics of a neural network. We'll explore how a network "learns" using gradient descent and see how forward and backward propagation work together to train a model, complete with a step-by-step numerical example.
 
 ### Linear Regression
 

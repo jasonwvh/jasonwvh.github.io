@@ -1,15 +1,12 @@
 ---
 layout: default
-title: "Authentication Part 1: SAML"
+title: "Authentication 1: SAML Simplified"
 date: 2025-01-10 10:00:00 -0000
 categories: cybersecurity
-published: false
+published: true
 ---
 
-## A Deep Dive into SAML: The Foundation of Enterprise SSO
-Welcome to the first installment of our five-part series on identity and federation protocols. In this series, we will journey through the technologies that enable secure authentication and authorization across the web. We begin with the cornerstone of enterprise Single Sign-On (SSO): **Security Assertion Markup Language (SAML)**.
-
-### What is SAML?
+## Security Assertion Markup Language (SAML) Simplified
 
 SAML is an open standard, finalized in 2005, for exchanging authentication and authorization data between parties. These parties are known as an **Identity Provider (IdP)**, which holds the user identities, and a **Service Provider (SP)**, which provides a resource. Its primary use case is to enable Web Browser Single Sign-On (SSO), allowing a user to log in once to a central authority and then access multiple separate systems without re-authentication.
 

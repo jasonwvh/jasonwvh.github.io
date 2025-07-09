@@ -1,12 +1,16 @@
 ---
 layout: post
-title:  "Stochastic Processes Part 1: Foundations"
+title:  "Probability 1: Foundations"
 date:   2025-04-30 14:19:38 +0800
 categories: statistics
 published: true
 ---
 
-## Random Variables
+## Probability 1: Foundations
+
+The world is full of randomness, from the fluctuating price of a stock to the unpredictable movement of particles in the air. Stochastic processes provide a mathematical framework for describing and analyzing these dynamic, uncertain systems. This introductory post lays the essential groundwork, defining what a stochastic process is and introducing the key concepts of sample space, sample functions, and the probabilistic laws that govern them. We'll explore how to classify these processes and delve into the fundamental ideas of stationarity and ergodicity, which are crucial for making sense of random data over time.
+
+### Random Variables
 
 At its core, a random variable is a way of assigning a numerical value to the outcome of a random experiment. Imagine flipping a coin, the outcome could be "heads" or "tails." A random variable, let's call it $X$, could assign $1$ to "heads" and $0$ to "tails."
 

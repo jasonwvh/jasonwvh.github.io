@@ -1,10 +1,14 @@
 ---
 layout: post
-title:  "Stochastic Processes Part 2: Discrete Stochastic Processes"
+title:  "Probability 2: Discrete Stochastic Processes"
 date:   2025-04-30 14:19:38 +0800
 categories: statistics
 published: true
 ---
+
+## Probability 2: Discrete Stochastic Processes
+
+How can we model a sequence of random events that unfold one step at a time? Discrete-time stochastic processes provide the answer. This post focuses on two of the most important types: Bernoulli processes, which model sequences of simple success/fail trials, and Markov chains, which introduce the concept of "memory" where the future depends only on the present state. We will explore the properties of these models, from the transition probabilities of a Markov chain to the long-term behavior of its states, providing the tools to analyze systems that evolve in discrete steps.
 
 ### Markov Chains
 

@@ -1,10 +1,14 @@
 ---
 layout: post
-title:  "Recurrent Neural Networks Simplified"
+title:  "Machine Learning 3: Recurrent Neural Networks Simplified"
 date:   2025-07-01 14:19:38 +0800
 categories: machine-learning
 published: true
 ---
+
+## Recurrent Neural Networks Simplified
+
+Human language, financial markets, and music all have one thing in common: they are sequences, where the past informs the present. Recurrent Neural Networks (RNNs) are specifically designed to understand this flow of time. By introducing a "memory" loop, they can process sequential data in a way that standard networks cannot. This post explores the architecture of RNNs, the challenges of long-term memory, and the ingenious solutions provided by Long Short-Term Memory (LSTM) and Gated Recurrent Unit (GRU) networks that enable them to master complex sequences.
 
 ### Neural Networks with Memory
 

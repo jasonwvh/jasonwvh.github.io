@@ -1,13 +1,14 @@
 ---
 layout: default
-title: "Authentication Part 4: OpenID Connect"
+title: "Authentication 4: OpenID Connect Simplified"
 date: 2025-01-10 10:00:00 -0000
 categories: cybersecurity
-published: false
+published: true
 ---
 
-## OpenID Connect: The Identity Layer on OAuth 2.0
-Welcome to Part 4 of our identity and federation series. In our previous posts, we covered [SAML](/cybersecurity/identity-federation/2025/07/09/1-saml.html), [OAuth 1.0](/cybersecurity/identity-federation/2025/07/10/2-oauth1.html), and [OAuth 2.0](/cybersecurity/identity-federation/2025/07/11/3-oauth2.html). We established that OAuth 2.0 is a framework for *delegated authorization*, but explicitly not for *authentication*. Relying on an Access Token to log a user in is a common anti-pattern.
+## OpenID Connect Simplified
+
+We established that OAuth 2.0 is a framework for *delegated authorization*, but explicitly not for *authentication*. Relying on an Access Token to log a user in is a common anti-pattern.
 
 This is the exact problem **OpenID Connect (OIDC)** was created to solve. Published in 2014, OIDC is a thin identity layer built directly on top of OAuth 2.0. It provides a standard, secure, and API-friendly way to perform authentication.
 
