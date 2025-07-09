@@ -1,0 +1,62 @@
+---
+layout: default
+title: "Authentication Part 2: OAuth 1.0"
+date: 2025-01-10 10:00:00 -0000
+categories: cybersecurity
+published: false
+---
+
+## The Cryptographic Rigor of OAuth 1.0
+Welcome back to our series on identity and federation. In [Part 1](/cybersecurity/identity-federation/2025/07/09/1-saml.html), we covered SAML for enterprise SSO. Now, we turn to the original protocol that set the stage for modern API security: **OAuth 1.0**.
+
+Released in 2007, OAuth 1.0 introduced a standard for delegated authorization. Its primary goal was to solve the "password anti-pattern" by allowing a third-party application (a "Consumer") to access a user's data on a "Service Provider" without the user having to share their credentials. Its defining characteristic is a security model built directly into the protocol through **cryptographic signatures**, making it independent of transport-layer security.
+
+### The Core Idea: Signed Requests, Not Bearer Tokens
+
+Unlike its successor, OAuth 1.0 does not use simple "bearer" tokens. An Access Token in OAuth 1.0 is not a password to be presented; it is a key to be used for signing. Every single request from the Consumer to the Service Provider had to be individually signed. This signature proves to the Service Provider that the request comes from a known Consumer, is on behalf of an authorized user, and has not been tampered with in transit.
+
+This signature-based approach meant that OAuth 1.0 could, in theory, work securely over unencrypted HTTP.
+
+### The OAuth 1.0a Flow: A Dance of Tokens and Signatures
+
+The OAuth 1.0a flow (the 'a' is a crucial revision that fixed a session fixation vulnerability) is a three-legged process to acquire the final Access Token.
+
+**The Credentials:**
+*   **Consumer Key & Secret:** A public identifier and a confidential secret for the client application, issued by the Service Provider.
+*   **Request Token & Secret:** A temporary, single-use token and secret used during the initial authorization phase.
+*   **Access Token & Secret:** A long-lived token and secret used to sign all subsequent API requests on behalf of the user.
+
+**The Steps:**
+
+1.  **Get a Request Token:** The Consumer makes a signed request to the Service Provider's Request Token endpoint. This request is signed using the Consumer Secret.
+2.  **Redirect for Authorization:** The Service Provider returns a temporary Request Token and Secret. The Consumer stores these and then redirects the user to the Service Provider's authorization endpoint, including the `oauth_token` (the Request Token) in the URL.
+3.  **User Grants Access:** The user logs in to the Service Provider and approves the Consumer's request for access.
+4.  **Receive a Verifier:** This is the key step in OAuth 1.0a. The Service Provider redirects the user back to the Consumer's callback URL, providing the original `oauth_token` and a new, temporary **`oauth_verifier`** code. This verifier proves that the user has just completed the authorization step.
+5.  **Exchange for an Access Token:** The Consumer makes a signed request to the Access Token endpoint. This request must include the `oauth_verifier`, and it must be signed using both the Consumer Secret and the Request Token Secret from step 2.
+6.  **Get the Access Token:** The Service Provider validates the signature and the verifier. If they match, it invalidates the Request Token and finally issues a long-lived Access Token and Access Token Secret. The Consumer stores these securely to make future API calls.
+
+### The Signature: The Heart of OAuth 1.0
+
+The most challenging part of implementing OAuth 1.0 is correctly generating the `oauth_signature` for each request. This signature is sent as one of several `oauth_*` parameters in the `Authorization` header.
+
+The key `oauth_*` parameters are:
+*   `oauth_consumer_key`: Identifies the Consumer.
+*   `oauth_token`: The Access Token (or Request Token).
+*   `oauth_signature_method`: The algorithm used, almost always `HMAC-SHA1`.
+*   `oauth_timestamp`: A Unix timestamp of the request time, used to prevent replay attacks.
+*   `oauth_nonce`: A unique, randomly generated string for each request, also to prevent replay attacks.
+*   `oauth_version`: `1.0`.
+*   `oauth_signature`: The signature itself.
+
+The signature generation process is meticulous:
+1.  Collect all parameters: all `oauth_*` parameters (except `oauth_signature`) and all other request parameters from the query string and request body.
+2.  Normalize them by percent-encoding every key and value, then sorting the pairs alphabetically by key.
+3.  Join the key-value pairs with `=` and then join the resulting strings with `&` to create a single, canonical parameter string.
+4.  Create a "Signature Base String" by concatenating the uppercase HTTP method (e.g., `POST`), the percent-encoded request URL (without query string), and the percent-encoded parameter string from the previous step.
+5.  Create a signing key by concatenating the percent-encoded Consumer Secret and the percent-encoded Token Secret (Request or Access), separated by an `&`.
+6.  Calculate the HMAC-SHA1 hash of the Signature Base String using the signing key.
+7.  Base64-encode the resulting binary hash. This is your `oauth_signature`.
+
+### Conclusion: Powerful but Brittle
+
+OAuth 1.0 was a groundbreaking standard that solved delegated authorization with a robust, self-contained security model. However, its reliance on complex, per-request cryptographic signatures was its downfall. A tiny error in the multi-step signature generation process would lead to authentication failure, making it notoriously difficult to implement and debug. The rise of ubiquitous SSL/TLS encryption made this level of application-layer cryptography feel redundant and overly complex for most use cases.

@@ -1,0 +1,55 @@
+---
+layout: default
+title: "Authentication Part 1: SAML"
+date: 2025-01-10 10:00:00 -0000
+categories: cybersecurity
+published: false
+---
+
+## A Deep Dive into SAML: The Foundation of Enterprise SSO
+Welcome to the first installment of our five-part series on identity and federation protocols. In this series, we will journey through the technologies that enable secure authentication and authorization across the web. We begin with the cornerstone of enterprise Single Sign-On (SSO): **Security Assertion Markup Language (SAML)**.
+
+### What is SAML?
+
+SAML is an open standard, finalized in 2005, for exchanging authentication and authorization data between parties. These parties are known as an **Identity Provider (IdP)**, which holds the user identities, and a **Service Provider (SP)**, which provides a resource. Its primary use case is to enable Web Browser Single Sign-On (SSO), allowing a user to log in once to a central authority and then access multiple separate systems without re-authentication.
+
+It's a mature, robust, and necessarily verbose XML-based standard that has been the backbone of corporate and academic SSO for nearly two decades.
+
+### Core Concepts: Metadata, Assertions, and Protocols
+
+To understand SAML, you must first understand its key components:
+
+1.  **Principal (The User):** The end-user trying to access a resource, equipped with a web browser.
+2.  **Identity Provider (IdP):** The system that authenticates the Principal and issues SAML Assertions (e.g., Okta, Azure AD, Shibboleth). It is the source of truth for user identity.
+3.  **Service Provider (SP):** The system or application that the Principal wants to access. The SP trusts the IdP to authenticate users and consumes SAML Assertions to grant access (e.g., Salesforce, Dropbox).
+
+The communication between these actors is defined by three key XML-based documents:
+
+*   **Metadata:** Before any SSO can occur, the IdP and SP must exchange configuration data. This is done via a **SAML Metadata XML file**. The SP provides its metadata to the IdP, and the IdP provides its metadata to the SP. This file contains crucial information like entity IDs, endpoint URLs (for login and logout), and the public keys used for signing and encryption. This exchange establishes the trust relationship.
+*   **Assertions:** The core of SAML. An assertion is a package of security information that the IdP sends to the SP. An assertion can carry three types of statements:
+    *   **Authentication Statements:** Asserts that the user was authenticated by a particular method at a specific time.
+    *   **Attribute Statements:** Provides attributes about the user (e.g., email, name, role). This is how the SP receives user profile information.
+    *   **Authorization Decision Statements:** States whether the user is authorized to access a specific resource, though this is less commonly used than the other two.
+*   **Protocol:** The rules defining how SAML asks for and receives assertions. The most common protocol messages are the `AuthnRequest` (from SP to IdP) and the `Response` (from IdP to SP).
+
+### The SAML SSO Flow (SP-Initiated)
+
+The most common SAML workflow is the **SP-Initiated Flow**, where the user begins their journey at the Service Provider.
+
+1.  **Access Request:** The User attempts to access a protected resource directly from the SP.
+2.  **AuthnRequest Generation:** The SP, seeing the user is unauthenticated, crafts a SAML Authentication Request (`<samlp:AuthnRequest>`) XML document. This request specifies what the SP wants, such as the required name ID format and the URL where the response should be sent (the Assertion Consumer Service or ACS).
+3.  **HTTP Redirect Binding:** The SP sends the `AuthnRequest` to the user's browser via an **HTTP Redirect**. The XML is deflated, Base64-encoded, and URL-encoded to fit into a `SAMLRequest` query parameter. The browser is redirected to the IdP's SingleSignOnService endpoint. This is a "front-channel" communication, as it happens via the user's browser.
+4.  **User Authentication:** The IdP receives and decodes the `AuthnRequest`. It then challenges the user to authenticate (e.g., via username/password, MFA). If the user already has an active session with the IdP, this step might be skipped.
+5.  **SAML Response Generation:** Once authenticated, the IdP generates a `<samlp:Response>` XML document. This response contains the **SAML Assertion**. Crucially, the IdP uses its private key to digitally sign the assertion (or the entire response) using **XML Signature (XMLDsig)**. This signature ensures message integrity and authenticity. Optionally, if the assertion contains sensitive data, the IdP can encrypt it using the SP's public key (obtained from the metadata) via **XML Encryption**.
+6.  **HTTP POST Binding:** The IdP sends the `Response` back to the browser inside an HTML form that automatically submits via JavaScript. The Base64-encoded XML is placed in a hidden form field named `SAMLResponse`. The form is POSTed to the SP's ACS URL. This is also a front-channel binding.
+7.  **Verification and Access:** The SP's ACS receives the POSTed `SAMLResponse`. It performs several critical validation steps:
+    *   It parses the XML and verifies the digital signature using the IdP's public key (from the metadata). This is the most critical security step.
+    *   If encrypted, it decrypts the assertion using its private key.
+    *   It checks the assertion's conditions, such as the timestamp (`NotBefore`, `NotOnOrAfter`) to prevent replay attacks, and the `Audience` restriction to ensure the assertion was intended for this specific SP.
+8.  **Session Creation:** If all checks pass, the SP creates a local session for the user and grants them access. The SSO flow is complete.
+
+### Conclusion: Strengths and Limitations
+
+SAML's main strength is its robust and comprehensive security model, which does not depend on the transport layer. The use of XML Signatures provides strong guarantees of message authenticity and integrity. Its detailed metadata format allows for explicit and granular trust configuration.
+
+However, its XML verbosity and the complexity of parsing and securing XML (e.g., canonicalization issues, signature wrapping attacks) make it heavyweight. Furthermore, its browser-based redirect flows are ill-suited for modern single-page applications (SPAs) and native mobile apps, which prefer direct API interactions. This is the gap that our next topics were designed to fill.

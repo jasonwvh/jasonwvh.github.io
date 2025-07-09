@@ -1,0 +1,64 @@
+---
+layout: default
+title: "Authentication Part 3: OAuth 2.0"
+date: 2025-01-10 10:00:00 -0000
+categories: cybersecurity
+published: false
+---
+
+## The Simplicity and Power of OAuth 2.0
+Welcome to the third part of our series on identity and federation. After covering [SAML in Part 1](/cybersecurity/identity-federation/2025/07/09/1-saml.html) and the cryptographic complexities of [OAuth 1.0 in Part 2](/cybersecurity/identity-federation/2025/07/10/2-oauth1.html), we now arrive at its successor: **OAuth 2.0**. Published in 2012, OAuth 2.0 is not a new version but a complete rewrite, designed to prioritize simplicity, flexibility, and support for a wider range of clients, including browser-based JavaScript applications and native mobile apps.
+
+### The Paradigm Shift: From Signed Requests to Bearer Tokens over TLS
+
+The biggest change from OAuth 1.0 is the elimination of per-request cryptographic signatures. OAuth 2.0 offloads the responsibility for confidentiality and integrity to the transport layer, assuming that all communication will happen over **HTTPS (TLS)**.
+
+Instead of signing requests, a client obtains an **Access Token** and presents it directly to the Resource Server. This is known as a **Bearer Token**, because the bearer of the token is assumed to be an authorized party. This dramatically simplifies client-side implementation.
+
+### Roles and Grant Types
+
+OAuth 2.0 formalizes the roles:
+1.  **Resource Owner:** The user who owns the data.
+2.  **Client:** The application requesting access.
+3.  **Authorization Server (AS):** The server that issues tokens.
+4.  **Resource Server (RS):** The API that hosts the data.
+
+It also defines several workflows, or **"grant types,"** for different client types and scenarios:
+
+*   **Authorization Code Flow:** The most common and secure flow, designed for traditional web applications with a confidential backend server.
+*   **Implicit Flow:** A legacy flow for JavaScript applications that has been largely replaced due to security concerns. It returned the Access Token directly in the URL.
+*   **Resource Owner Password Credentials Grant:** Allows a client to exchange a user's username and password directly for an access token. This is only suitable for highly trusted, first-party clients.
+*   **Client Credentials Grant:** Used for machine-to-machine communication where there is no user. The client authenticates itself to get a token to access its own resources.
+
+### The Authorization Code Flow in Detail
+
+This flow is the cornerstone of OAuth 2.0.
+
+1.  **Authorization Request:** The user clicks a "Connect" button. The Client redirects them to the AS with parameters like `response_type=code`, `client_id`, `redirect_uri`, and `scope`.
+2.  **User Consent:** The user authenticates with the AS and approves the permissions requested in the `scope`.
+3.  **Authorization Code Grant:** The AS redirects the user back to the Client's `redirect_uri` with a temporary, one-time-use **Authorization Code**.
+4.  **Token Exchange:** The Client's backend server makes a secure, direct call to the AS's token endpoint. It sends the Authorization Code along with its `client_id` and `client_secret` to authenticate itself.
+5.  **Token Issuance:** The AS validates the code and client credentials, then returns an **Access Token**. It may also return a **Refresh Token**.
+
+### Security in the Modern Era: PKCE
+
+The original Authorization Code flow relied on a `client_secret` to secure the token exchange. This works for confidential clients (like a Java backend) but not for **public clients** (like a mobile app or a Single-Page Application), where the secret cannot be stored securely.
+
+To solve this, the **Proof Key for Code Exchange (PKCE, pronounced "pixy")** extension was created. It is now considered a best practice for *all* clients.
+
+The PKCE flow adds two simple steps:
+1.  Before the initial redirect, the client generates a random string called a `code_verifier`. It then hashes this string (using SHA256) to create a `code_challenge`.
+2.  The `code_challenge` is sent in the initial authorization request.
+3.  When the client later exchanges the authorization code for an access token, it includes the original, un-hashed `code_verifier` in the request.
+
+The Authorization Server checks that the hash of the `code_verifier` it just received matches the `code_challenge` from the initial request. This proves that the client making the token request is the same one that started the flow, preventing an attacker from intercepting the authorization code and using it.
+
+### Refresh Tokens: Maintaining Long-Term Access
+
+Access Tokens are typically short-lived (e.g., one hour) to limit the damage if they are compromised. When an Access Token expires, the user would have to go through the entire authorization flow again.
+
+To avoid this, the Authorization Server can issue a long-lived **Refresh Token** alongside the Access Token. When the Access Token expires, the client can use the Refresh Token to request a new Access Token from the token endpoint without any user interaction. Refresh Tokens are powerful and must be stored securely by the client.
+
+### Conclusion: The Foundation of Modern APIs
+
+By simplifying the protocol and leveraging TLS, OAuth 2.0 became the undisputed standard for API security and delegated authorization. Its flexibility and extensibility (like PKCE) have allowed it to adapt to the evolving needs of web and mobile development. However, its scope is strictly limited to authorization, which led to the creation of a final, crucial layer for authentication.
