@@ -1,0 +1,110 @@
+---
+layout: post
+title:  "Convolutional Neural Networks Simplified"
+date:   2025-07-01 14:19:38 +0800
+categories: machine-learning
+published: true
+---
+
+### The Convolution Layer
+
+The heart of a CNN is the **convolution layer**, which replaces the simple weighted sums of a dense network with a more sophisticated operation. Instead of connecting every input neuron to every output neuron, a convolution layer uses small, learnable filters (or **kernels**) that slide across the input data.
+
+Imagine a 3x3 kernel sliding over an input image. At each position, the kernel performs an element-wise multiplication with the patch of the image it's currently on, and then sums up the results into a single output pixel. This process is repeated across the entire image, creating an output called a **feature map**.
+
+**The Mathematics:**
+
+For a 2D input image $I$ and a 2D kernel $K$, the convolution operation $(I \\* K)$ at a position $(i, j)$ is defined as:
+
+$$(I * K)_{ij} = \sum_m \sum_n I(i-m, j-n) K(m, n)$$
+
+The beauty of this is that the kernel acts as a **feature detector**. During training, the network learns the values for these kernels. One kernel might learn to detect vertical edges, another might detect a specific color gradient, and another might learn to recognize a certain texture.
+
+Two key hyperparameters control the behavior of the convolution:
+
+  * **Stride:** This is the number of pixels the kernel moves at each step. A stride of 1 moves one pixel at a time, while a stride of 2 skips every other pixel, producing a smaller feature map.
+  * **Padding:** This involves adding extra pixels (usually zeros) around the border of the input image. Without padding, the kernel can't be centered on the edge pixels, meaning the feature map will be smaller than the input. "Same" padding ensures the output feature map has the same spatial dimensions as the input.
+
+After the convolution, a **ReLU (Rectified Linear Unit)** activation function is almost always applied. As we saw before, this introduces non-linearity, allowing the network to learn more complex features.
+
+### The Pooling Layer
+
+After a convolution layer detects features, it's common to downsample the feature map using a **pooling layer**. The primary goal of pooling is to reduce the spatial dimensions (width and height) of the input, which has two main benefits:
+
+1.  **Reduces computational load:** Fewer parameters mean faster training and less memory usage.
+2.  **Provides translational invariance:** It makes the network more robust to the exact position of a feature. If a feature moves slightly, the pooled output will likely remain the same.
+
+The most common method is **Max Pooling**. It involves sliding a small window (e.g., 2x2) over the feature map and, at each step, taking only the maximum value from that window.
+
+**Example of 2x2 Max Pooling with a Stride of 2:**
+
+$$
+\begin{bmatrix}
+4 & 9 \\
+1 & 3
+\end{bmatrix}
+\rightarrow 9
+$$
+
+The pooling layer aggressively summarizes the features present in a region, keeping the most activated (important) ones.
+
+### Assembling the Full Architecture
+
+A typical CNN architecture is a sequence of stacked layers, building a hierarchy of features.
+
+1.  **Feature Extraction:** The early part of the network consists of repeating blocks of `Convolution -> ReLU -> Pooling`.
+
+* The **first few layers** learn simple features like edges, corners, and colors.
+* **Deeper layers** receive their input from the feature maps of previous layers. They combine these simpler features to learn more complex structures, like eyes, noses, or the texture of a car's tire.
+
+2.  **Classification:** After several rounds of feature extraction, the final, high-level feature maps are **flattened** into a single 1D vector. This vector represents the most salient information extracted from the image. This flattened vector is then fed into a standard **fully connected network** (just like the one from our previous post\!). The final layer is typically a **Softmax** layer that outputs a probability distribution over the possible classes (e.g., 80% Cat, 15% Dog, 5% Fox).
+
+A complete CNN architecture might look like this:
+
+**INPUT [32x32x3] -\> [CONV -\> RELU -\> POOL] -\> [CONV -\> RELU -\> POOL] -\> FLATTEN -\> DENSE -\> SOFTMAX -\> OUTPUT**
+
+#### Parameter Efficiency
+
+Why are CNNs so much better for images than dense networks? One key reason is **parameter sharing**. The same filter (e.g., a 3x3 kernel with 9 + 1 bias = 10 parameters) is used across the entire image.
+
+Consider a 224x224x3 image.
+* A **single neuron in a fully connected first layer** would require `224 * 224 * 3 = 150,528` weights. If that layer has 1000 neurons, you're looking at over 150 million parameters for just the first layer!
+* A **convolutional layer** with a 3x3 filter, by contrast, has a fixed number of parameters determined only by the kernel size and depth. If we use 64 filters on the input, the number of learnable parameters is `(3 * 3 * 3) * 64 + 64 = 1,792`. This is a staggering reduction in parameters, making the network less prone to overfitting and computationally feasible to train.
+
+#### The 1x1 Convolution: A Secret Weapon
+
+It may seem counterintuitive, but using a 1x1 kernel is a common and powerful technique. A 1x1 convolution doesn't look at neighboring pixels. So what's its purpose?
+
+It operates across the **depth dimension**. Imagine an input volume of 64x64x192. A 1x1 convolution with 32 filters will produce an output volume of 64x64x32. It acts as a "bottleneck" layer, reducing the number of feature maps (the depth) without changing the spatial dimensions. This is crucial for building efficient architectures like Google's Inception network, as it dramatically reduces computation in subsequent layers.
+
+#### The Backpropagation Step
+
+How does the network learn the kernel values? During backpropagation, the gradient is passed backward through the network. For a convolution layer, the backpropagation step is, poetically, also a convolution. The gradient of the loss with respect to the layer's input is calculated by convolving the gradient from the next layer with the *flipped* kernel weights from the forward pass. This mathematical elegance allows the chain rule to be applied efficiently.
+
+### A Tour of Classic Architectures
+
+The best way to understand CNN principles is to see how they've been used in legendary, prize-winning architectures.
+
+#### 1. LeNet-5 (1998)
+
+The pioneer. Yann LeCun's LeNet-5 was one of the earliest successful CNNs, used for handwritten digit recognition. Its architecture was simple but established the pattern we see today: two sets of `Convolution -> Pooling` layers, followed by a flattening step and two fully connected layers.
+
+#### 2. AlexNet (2012)
+
+The network that kickstarted the deep learning revolution by winning the ImageNet competition with a massive leap in accuracy. AlexNet was deeper than LeNet and made several key contributions:
+* It used **ReLU** for activation, which trained much faster than the Tanh functions used previously.
+* It implemented **dropout** layers to combat overfitting in the large fully connected layers.
+* It was trained on GPUs, making the training of such a large network feasible.
+
+#### 3. VGGNet (2014)
+
+The VGG network family demonstrated that **depth** is critical. The VGG16 architecture features a very simple, uniform structure: it exclusively uses stacks of 3x3 convolutions, followed by max pooling. It showed that you could achieve state-of-the-art results by simply stacking more of these basic blocks to create a very deep network (16-19 layers).
+
+#### 4. ResNet (2015)
+
+As networks got deeper, they ran into the *vanishing gradient* problem, making them difficult to train. The Residual Network (ResNet) introduced a brilliant solution: the **residual connection** or **skip connection**.
+
+The idea is simple: allow the output of a layer to be the sum of its input and the result of its operations. A block of layers now learns a *residual function* $F(x)$ instead of the entire mapping $H(x)$. The output becomes $H(x) = F(x) + x$. This "identity shortcut" allows gradients to flow more easily through the network during backpropagation, enabling the training of incredibly deep models—some with over 150 layers. ResNet was a monumental breakthrough and its architecture is a common backbone for many modern computer vision tasks.
+
+$$\text{Standard Block: } x \rightarrow \text{Conv Layers} \rightarrow F(x)$$
+$$\text{Residual Block: } x \rightarrow \text{Conv Layers} \rightarrow F(x) \rightarrow F(x) + x$$

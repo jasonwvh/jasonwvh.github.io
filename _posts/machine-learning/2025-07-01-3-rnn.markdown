@@ -1,0 +1,109 @@
+---
+layout: post
+title:  "Recurrent Neural Networks Simplified"
+date:   2025-07-01 14:19:38 +0800
+categories: machine-learning
+published: true
+---
+
+### Neural Networks with Memory
+
+A standard feedforward network has no memory of past inputs. Each prediction is treated as an isolated event. An RNN, however, introduces a **loop**. This loop allows information to persist from one step of the sequence to the next, creating a form of memory.
+
+An RNN processes a sequence element by element. At each step `t`, the network takes two inputs: the current data point $x\_t$ and the output from the previous step, known as the **hidden state** $h\_{t-1}$. It then computes the new hidden state $h\_t$ and an optional output $y\_t$. This new hidden state $h\_t$ is then passed to the next time step, carrying information about all the previous elements in the sequence.
+
+This structure is incredibly powerful. It means the network's output for a word like "king" is influenced by having seen the word "The" at the beginning of the sentence. The hidden state acts as a compressed representation of the past.
+
+### The Mathematics of Recurrence
+
+The operations within a single RNN cell at time step `t` are surprisingly simple. They are governed by the following equations:
+
+1.  **Calculate the new hidden state ($h\_t$):**
+    $$h_t = \tanh(W_{hh} h_{t-1} + W_{xh} x_t + b_h)$$
+
+2.  **Calculate the output for the current step ($y\_t$):**
+    $$y_t = W_{hy} h_t + b_y$$
+
+Let's break this down:
+
+  * $x\_t$: The input at the current time step.
+  * $h\_{t-1}$: The hidden state from the previous time step. $h\_0$ is typically initialized to a vector of zeros.
+  * $W\_{xh}$: The weight matrix for the connections from the input to the hidden layer.
+  * $W\_{hh}$: The weight matrix for the recurrent connection from the previous hidden state to the current hidden state.
+  * $W\_{hy}$: The weight matrix for the connections from the hidden layer to the output layer.
+  * $b\_h, b\_y$: The bias vectors for the hidden and output layers, respectively.
+  * $\\tanh$: The hyperbolic tangent activation function. It's used to keep the values of the hidden state between -1 and 1, helping to regulate the flow of information.
+
+Crucially, the weight matrices ($W\_{xh}$, $W\_{hh}$, $W\_{hy}$) and biases are **the same for every time step**. This is the essence of recurrence: the same task is performed at each step of the sequence, just with different inputs. This makes RNNs extremely parameter-efficient.
+
+### Backpropagation Through Time (BPTT)
+
+To train an RNN, we use an extension of backpropagation called **Backpropagation Through Time (BPTT)**. The first step is to "unroll" the network in time. Imagine creating a separate copy of the network for each element in a sequence, with the recurrent connections feeding into the next copy. This turns the looped, recurrent network into a very deep feedforward network, with shared weights across all its layers (time steps).
+
+Once unrolled, we can calculate the loss at each output step, sum them up, and then use the standard backpropagation algorithm to compute the gradients. Because the weights are shared across all time steps, the gradients for a given weight matrix are the sum of the gradients computed at each time step.
+
+### The Challenge of Long-Term Memory
+
+Simple RNNs, while elegant, have a major flaw: they struggle with **long-term dependencies**. The hidden state has to compress all relevant information from the past. As the sequence gets longer, this becomes increasingly difficult.
+
+This leads to the infamous **vanishing and exploding gradient problems**. During BPTT, gradients are multiplied by the same weight matrix ($W\_{hh}$) over and over again.
+
+  * If the values in the matrix are small, the gradient can shrink exponentially until it becomes effectively zero (**vanishing gradient**), meaning the network can't learn from distant past events.
+  * If the values are large, the gradient can grow exponentially until it becomes enormous (**exploding gradient**), making the training process unstable.
+
+Because of this short-term memory issue, a simple RNN might be able to predict the last word in "the clouds are in the **sky**," but it would find it nearly impossible to complete "I grew up in France... I speak fluent **French**."
+
+### Long Short-Term Memory (LSTM)
+
+LSTMs solve the short-term memory problem by introducing an explicit memory pathway called the **cell state**. Think of it as a conveyor belt running through the entire sequence, carrying information along. The LSTM can add information to or remove information from this cell state, and this process is carefully regulated by a set of three structures called **gates**.
+
+These gates are essentially small neural networks with sigmoid activation functions, which output numbers between 0 and 1. A '0' means "let nothing through," while a '1' means "let everything through." This allows the network to *learn* what information to remember, what to forget, and what to output.
+
+An LSTM cell has two states passed from one step to the next: the **hidden state ($h\_t$)** and the **cell state ($C\_t$)**.
+
+#### The Three Gates of an LSTM
+
+1.  **Forget Gate ($f\_t$):** This gate decides what information to discard from the cell state. It looks at the previous hidden state ($h\_{t-1}$) and the current input ($x\_t$) and outputs a number between 0 and 1 for each piece of information in the previous cell state ($C\_{t-1}$).
+    $$f_t = \sigma(W_f \cdot [h_{t-1}, x_t] + b_f)$$
+
+2.  **Input Gate ($i\_t$):** This gate determines what new information to store in the cell state. It has two parts:
+
+      * A sigmoid layer decides which values to update ($i\_t$).
+      * A `tanh` layer creates a vector of new candidate values, $\\tilde{C}\_t$, that could be added to the state.
+        $$i_t = \sigma(W_i \cdot [h_{t-1}, x_t] + b_i)$$   
+        $$\tilde{C}_t = \tanh(W_C \cdot [h_{t-1}, x_t] + b_C)$$
+
+    The old cell state is then updated by first forgetting things (multiplying by $f\_t$) and then adding the new candidate information (multiplying by $i\_t$).
+    $$C_t = f_t * C_{t-1} + i_t * \tilde{C}_t$$
+
+3.  **Output Gate ($o\_t$):** Finally, this gate decides what to output as the new hidden state. It runs a sigmoid layer to decide which parts of the cell state to output. The cell state is then passed through a `tanh` function (to push the values to be between -1 and 1) and multiplied by the output of the sigmoid gate.
+    $$o_t = \sigma(W_o \cdot [h_{t-1}, x_t] + b_o)$$   
+    $$h_t = o_t * \tanh(C_t)$$
+
+This intricate mechanism allows the cell state to carry relevant information over long distances, effectively giving the network a robust long-term memory.
+
+### Gated Recurrent Unit (GRU)
+
+The GRU is a more modern and slightly simpler alternative to the LSTM, introduced in 2014. It combines the forget and input gates into a single **"update gate"** and merges the cell state and hidden state. This makes GRUs computationally more efficient.
+
+#### The Two Gates of a GRU
+
+1.  **Reset Gate ($r\_t$):** This gate determines how to combine the new input with the previous memory. It decides how much of the past information to forget.
+    $$r_t = \sigma(W_r \cdot [h_{t-1}, x_t] + b_r)$$
+
+2.  **Update Gate ($z\_t$):** This gate acts like a combination of the forget and input gates from an LSTM. It decides what information to throw away from the past and what new information to add.
+    $$z_t = \sigma(W_z \cdot [h_{t-1}, x_t] + b_z)$$
+
+The hidden state is then updated. First, the reset gate is used to calculate a candidate hidden state, $\\tilde{h}*t$. Then, the update gate is used to determine how much of the previous hidden state ($h*{t-1}$) to keep and how much of the new candidate state ($\\tilde{h}\_t$) to include.
+$$\tilde{h}_t = \tanh(W_h \cdot [r_t * h_{t-1}, x_t] + b_h)$$
+$$h_t = (1 - z_t) * h_{t-1} + z_t * \tilde{h}_t$$
+
+### LSTM vs. GRU: Which to Choose?
+
+So which architecture is better? There's no definitive answer, and the choice is often empirical.
+
+  * **Complexity:** A GRU has fewer parameters than an LSTM (two gates vs. three), making it slightly faster to train and computationally less expensive.
+  * **Performance:** Both architectures deliver state-of-the-art results on many tasks. While LSTM is the older and more established model, some research has shown GRUs outperforming LSTMs on certain smaller datasets.
+  * **Recommendation:** A good rule of thumb is to start with LSTM as a default choice. However, if you need extra performance or computational efficiency, it's worth trying a GRU.
+
+By using these gating mechanisms, LSTMs and GRUs effectively mitigate the vanishing gradient problem, enabling networks to learn dependencies across hundreds of time steps. This breakthrough unlocked the potential of RNNs, making them the standard for complex sequence modeling tasks like machine translation, speech recognition, and sentiment analysis.
