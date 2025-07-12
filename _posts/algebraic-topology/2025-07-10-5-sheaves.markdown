@@ -1,0 +1,38 @@
+---
+layout: post
+title: "Algebraic Topology 5: Sheaves"
+date: 2025-07-10 09:04:00 -0000
+categories: algebraic-topology
+---
+
+### Presheaves and Sheaves: The Formalism
+
+Let X be a topological space. The category `Open(X)` has the open sets of X as objects and inclusion maps as morphisms.
+
+A **presheaf** `F` of sets (or groups, rings) on X is a functor `F: Open(X)ᵒᵖ -> Set`. This means:
+1.  To each open set `U ⊆ X`, we associate a set `F(U)` (called the "sections" over U).
+2.  To each inclusion `V ⊆ U`, we associate a "restriction" map `res_{U,V}: F(U) -> F(V)`.
+These maps must be consistent: `res_{U,U}` is the identity, and `res_{U,W} = res_{V,W} ∘ res_{U,V}` for `W ⊆ V ⊆ U`.
+
+A presheaf becomes a **sheaf** if it also satisfies the **gluing axiom**:
+For any open set `U` and any open cover `{U_i}` of `U`, if we have sections `s_i ∈ F(U_i)` for each `i` that are *compatible* on overlaps (i.e., `res(s_i) = res(s_j)` on `U_i ∩ U_j`), then:
+1.  (**Existence**) There exists a global section `s ∈ F(U)` such that `res(s) = s_i` on each `U_i`.
+2.  (**Uniqueness**) This global section `s` is unique.
+
+The gluing axiom is the essence of a sheaf. It guarantees that any collection of compatible local data can be uniquely assembled into a global whole.
+
+### Examples of Sheaves
+
+- **The Sheaf of Continuous Functions:** For an open set U, `F(U)` is the ring of continuous real-valued functions on U. Restriction is just function restriction. This is the canonical example.
+- **The Constant Presheaf vs. The Constant Sheaf:** This is a crucial example. Let `G` be a group. The *constant presheaf* assigns `F(U) = G` for every non-empty open set `U`. This is **not** a sheaf! Why? Consider two disjoint open sets `U₁` and `U₂`. Let `s₁ = g₁ ∈ F(U₁)` and `s₂ = g₂ ∈ F(U₂)`. They are compatible on the empty overlap. If `g₁ ≠ g₂`, there is no single `s ∈ F(U₁ ∪ U₂) = G` that restricts to both.
+The fix is the **constant sheaf**, where `F(U)` is the set of *locally constant* functions from `U` to `G`. Now, gluing works.
+
+### Sheaf Cohomology: Measuring Obstruction
+
+Sheaf cohomology is a powerful tool that measures the obstruction to gluing.
+- The **0-th cohomology group, H⁰(X, F)**, is simply the set of global sections, `F(X)`. This is the data that is consistent across the entire space.
+- The **1st cohomology group, H¹(X, F)**, measures the obstruction to gluing sections. If you have a collection of local sections on a cover that are compatible, H¹ tells you whether you can patch them together to form a global section. A non-zero H¹ means there are compatible local solutions that fail to have a global solution.
+
+For example, consider the sheaf of non-zero holomorphic functions on the complex plane punctured at the origin, `C*`. There is a local solution to `f(z)² = z` (a local square root function), but no global solution. This is detected by a non-trivial class in `H¹(C*, F)`.
+
+Sheaves provide a unified language for many concepts in geometry and topology. De Rham cohomology, for instance, can be understood as the cohomology of the sheaf of differential forms. They are a cornerstone of modern algebraic geometry and have found applications in logic, data analysis, and theoretical physics, providing the ultimate toolkit for thinking about local-to-global problems.
