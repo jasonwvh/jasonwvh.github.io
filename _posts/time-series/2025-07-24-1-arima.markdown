@@ -9,7 +9,7 @@ ARIMA (AutoRegressive Integrated Moving Average) is a cornerstone for understand
 
 ### Stationarity
 
-Before we can model a time series, we need to ensure it's "stationary." A time series is stationary if its statistical properties ($ \mu $, $ \sigma^2 $, autocorrelation) are constant / not dependent on time. Think of it as a flat-looking series without trends or seasonal fluctuations.
+Before we can model a time series, we need to ensure it's "stationary." A time series is stationary if its statistical properties ($$\mu$$, $$\sigma^2$$, autocorrelation) are constant / not dependent on time. Think of it as a flat-looking series without trends or seasonal fluctuations.
 
 Why is stationarity important? Because most statistical models, including ARIMA, are based on the assumption that the underlying process that generated the data is consistent over time. If the process is not stationary, it becomes difficult to model, as the statistical properties are not constant.
 
@@ -22,44 +22,40 @@ To check for stationarity and to determine the parameters of our ARIMA model, we
 
 ### AutoRegressive (AR) Models
 
-An AR model predicts future behavior based on past behavior. It's a regression of the time series against its own lags. An AR(p) model is a model of order `p`, where `p` is the number of lagged values we use to predict the current value.
+An AR model predicts future behavior based on past behavior. It's a regression of the time series against its own lags. An AR(p) model is a model of order $$p$$, where $$p$$ is the number of lagged values we use to predict the current value.
 
 The equation for an AR(p) model is:
 
-$$
-Y_t = c + \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + \dots + \phi_p Y_{t-p} + \epsilon_t
-$$
+$$ Y_t = c + \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + \dots + \phi_p Y_{t-p} + \epsilon_t $$
 
 where:
-- $$ Y_t $$ is the value at time $$ t $$
-- $$ c $$ is a constant
-- $$ \phi_1 , \dots, \phi_p $$ are the model parameters
-- $$ \epsilon_t $$ is white noise
+- $$Y_t$$ is the value at time $$t$$
+- $$c$$ is a constant
+- $$\phi_1, \dots, \phi_p$$ are the model parameters
+- $$\epsilon_t$$ is white noise
 
 **When to use an AR model:**
 You can identify an AR model by its ACF and PACF plots:
 *   **ACF:** Tails off gradually.
-*   **PACF:** Cuts off abruptly after lag `p`.
+*   **PACF:** Cuts off abruptly after lag $$p$$.
 
 ### Moving Average (MA) Models
 
-An MA model, on the other hand, predicts the future based on the errors of past predictions. An MA(q) model is a model of order `q`, where `q` is the number of past error terms we use to predict the current value.
+An MA model, on the other hand, predicts the future based on the errors of past predictions. An MA(q) model is a model of order $$Q$$, where $$Q$$ is the number of past error terms we use to predict the current value.
 
 The equation for an MA(q) model is:
 
-$$
-Y_t = c + \epsilon_t + \theta_1 \epsilon_{t-1} + \theta_2 \epsilon_{t-2} + \dots + \theta_q \epsilon_{t-q}
-$$
+$$ Y_t = c + \epsilon_t + \theta_1 \epsilon_{t-1} + \theta_2 \epsilon_{t-2} + \dots + \theta_q \epsilon_{t-q} $$
 
 where:
-- $$ Y_t $$ is the value at time $$ t $$
-- $$ c $$ is a constant
-- $$ \theta_1, \dots, \theta_q $$ are the model parameters
-- $$ \epsilon_t $$ is white noise
+- $$Y_t$$ is the value at time $$t$$
+- $$c$$ is a constant
+- $$\theta_1, \dots, \theta_Q$$ are the model parameters
+- $$\epsilon_t$$ is white noise
 
 **When to use an MA model:**
 You can identify an MA model by its ACF and PACF plots:
-*   **ACF:** Cuts off abruptly after lag `q`.
+*   **ACF:** Cuts off abruptly after lag $$Q$$.
 *   **PACF:** Tails off gradually.
 
 ### Combining AR and MA: The ARMA(p, q) Model
@@ -68,11 +64,9 @@ Often, a time series can be best described by a combination of both AR and MA pr
 
 The equation for an ARMA(p, q) model is:
 
-$$
-Y_t = c + \phi_1 Y_{t-1} + \dots + \phi_p Y_{t-p} + \epsilon_t + \theta_1 \epsilon_{t-1} + \dots + \theta_q \epsilon_{t-q}
-$$
+$$ Y_t = c + \phi_1 Y_{t-1} + \dots + \phi_p Y_{t-p} + \epsilon_t + \theta_1 \epsilon_{t-1} + \dots + \theta_q \epsilon_{t-q} $$
 
-An ARMA model is useful when the time series is stationary and its ACF and PACF plots both tail off. The `p` and `q` are the orders of the autoregressive and moving average parts, respectively.
+An ARMA model is useful when the time series is stationary and its ACF and PACF plots both tail off. The $$p$$ and $$Q$$ are the orders of the autoregressive and moving average parts, respectively.
 
 ### Difference: Non-stationary Time Series
 
@@ -80,7 +74,7 @@ What if our time series is not stationary? This is where the "I" for "Integrated
 
 If we have to difference the data once to make it stationary, we say the data is integrated of order 1, denoted as I(1). If we have to difference it twice, it's I(2).
 
-The number of times we have to difference the data to make it stationary is the `d` parameter in our ARIMA(p, d, q) model.
+The number of times we have to difference the data to make it stationary is the $$d$$ parameter in our ARIMA(p, d, q) model.
 
 ### Putting It All Together: ARIMA(p, d, q)
 
@@ -91,16 +85,18 @@ An ARIMA model combines the AR, I, and MA components:
 *   **q:** The order of the Moving Average (MA) part.
 
 The process of building an ARIMA model is as follows:
-1.  **Check for stationarity:** If the series is not stationary, difference it until it is. The number of differencing steps gives you `d`.
-2.  **Identify `p` and `q`:** Look at the ACF and PACF plots of the stationary series to determine the order of the AR and MA parts.
-3.  **Fit the model:** Use the identified `p`, `d`, and `q` to fit the ARIMA model.
+1.  **Check for stationarity:** If the series is not stationary, difference it until it is. The number of differencing steps gives you $$d$$.
+2.  **Identify $$p$$ and $$Q$$:** Look at the ACF and PACF plots of the stationary series to determine the order of the AR and MA parts.
+3.  **Fit the model:** Use the identified $$p$$, $$d$$, and $$Q$$ to fit the ARIMA model.
 4.  **Evaluate the model:** Check the residuals of the model to ensure they are white noise.
 
 ### Estimating Model Parameters
 
-Once we have identified the orders (p, q) of our model, the next step is to estimate the values of the model's parameters the $$ \phi $$'s and $$ \theta $$'s. Two common methods for this are Ordinary Least Squares (OLS) and Maximum Likelihood Estimation (MLE).
+Once we have identified the orders (p, q) of our model, the next step is to estimate the values of the model's parameters the $$\phi
+s and $$\theta
+s. Two common methods for this are Ordinary Least Squares (OLS) and Maximum Likelihood Estimation (MLE).
 
-*   **Ordinary Least Squares (OLS):** For a pure AR(p) model, the parameters can be estimated using OLS. The goal of OLS is to minimize the sum of the squared differences between the observed values and the values predicted by the model. It's a straightforward and computationally efficient method. However, OLS is not suitable for models with MA components because the error terms $$ \epsilon_t $$ are not directly observable.
+*   **Ordinary Least Squares (OLS):** For a pure AR(p) model, the parameters can be estimated using OLS. The goal of OLS is to minimize the sum of the squared differences between the observed values and the values predicted by the model. It's a straightforward and computationally efficient method. However, OLS is not suitable for models with MA components because the error terms $$\epsilon_t$$ are not directly observable.
 
 *   **Maximum Likelihood Estimation (MLE):** MLE is a more general and widely used method, especially for ARMA and ARIMA models. MLE seeks to find the parameter values that maximize the likelihood function. The likelihood function measures the probability of observing the given data for a specific set of parameter values. By maximizing this function, we find the parameters that make our observed data most probable. While more computationally intensive than OLS, MLE is robust and provides a solid statistical foundation for parameter estimation.
 
@@ -110,8 +106,8 @@ Many time series have a seasonal component. For example, retail sales might be h
 
 This is where SARIMA (Seasonal ARIMA) comes in. It's an extension of ARIMA that includes seasonal terms. A SARIMA model is denoted as SARIMA(p, d, q)(P, D, Q)m, where:
 
-*   `(p, d, q)` are the non-seasonal parameters we've already discussed.
-*   `(P, D, Q)` are the seasonal parameters, similar to the non-seasonal ones but for the seasonal part of the series.
-*   `m` is the number of periods in each season (e.g., 12 for monthly data).
+*   $$(p, d, q)$$ are the non-seasonal parameters we've already discussed.
+*   $$(P, D, Q)$$ are the seasonal parameters, similar to the non-seasonal ones but for the seasonal part of the series.
+*   $$m$$ is the number of periods in each season (e.g., 12 for monthly data).
 
 The SARIMA model is a powerful tool for modeling time series with both trend and seasonality, making it one of the most widely used time-series models.

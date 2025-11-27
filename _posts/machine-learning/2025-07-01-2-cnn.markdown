@@ -1,10 +1,11 @@
 ---
 layout: post
-title:  "Machine Learning 2: Convolutional Neural Networks Simplified"
+title:  "Machine Learning 2: Convolution Neural Networks Simplified"
 date:   2025-07-01 14:19:38 +0800
 categories: machine-learning
 published: true
 ---
+
 
 ## Convolutional Neural Networks Simplified
 
@@ -18,9 +19,9 @@ Imagine a 3x3 kernel sliding over an input image. At each position, the kernel p
 
 **The Mathematics:**
 
-For a 2D input image $I$ and a 2D kernel $K$, the convolution operation $(I \\* K)$ at a position $(i, j)$ is defined as:
+For a 2D input image $$I$$ and a 2D kernel $$K$$, the convolution operation $$(I * K)$$ at a position $$(i, j)$$ is defined as:
 
-$$(I * K)_{ij} = \sum_m \sum_n I(i-m, j-n) K(m, n)$$
+$$ (I * K)_{ij} = \sum_m \sum_n I(i-m, j-n) K(m, n) $$
 
 The beauty of this is that the kernel acts as a **feature detector**. During training, the network learns the values for these kernels. One kernel might learn to detect vertical edges, another might detect a specific color gradient, and another might learn to recognize a certain texture.
 
@@ -61,11 +62,11 @@ A typical CNN architecture is a sequence of stacked layers, building a hierarchy
 * The **first few layers** learn simple features like edges, corners, and colors.
 * **Deeper layers** receive their input from the feature maps of previous layers. They combine these simpler features to learn more complex structures, like eyes, noses, or the texture of a car's tire.
 
-2.  **Classification:** After several rounds of feature extraction, the final, high-level feature maps are **flattened** into a single 1D vector. This vector represents the most salient information extracted from the image. This flattened vector is then fed into a standard **fully connected network** (just like the one from our previous post\!). The final layer is typically a **Softmax** layer that outputs a probability distribution over the possible classes (e.g., 80% Cat, 15% Dog, 5% Fox).
+2.  **Classification:** After several rounds of feature extraction, the final, high-level feature maps are **flattened** into a single 1D vector. This vector represents the most salient information extracted from the image. This flattened vector is then fed into a standard **fully connected network** (just like the one from our previous post!). The final layer is typically a **Softmax** layer that outputs a probability distribution over the possible classes (e.g., 80% Cat, 15% Dog, 5% Fox).
 
 A complete CNN architecture might look like this:
 
-**INPUT [32x32x3] -\> [CONV -\> RELU -\> POOL] -\> [CONV -\> RELU -\> POOL] -\> FLATTEN -\> DENSE -\> SOFTMAX -\> OUTPUT**
+**INPUT [32x32x3] -> [CONV -> RELU -> POOL] -> [CONV -> RELU -> POOL] -> FLATTEN -> DENSE -> SOFTMAX -> OUTPUT**
 
 #### Parameter Efficiency
 
@@ -108,7 +109,7 @@ The VGG network family demonstrated that **depth** is critical. The VGG16 archit
 
 As networks got deeper, they ran into the *vanishing gradient* problem, making them difficult to train. The Residual Network (ResNet) introduced a brilliant solution: the **residual connection** or **skip connection**.
 
-The idea is simple: allow the output of a layer to be the sum of its input and the result of its operations. A block of layers now learns a *residual function* $F(x)$ instead of the entire mapping $H(x)$. The output becomes $H(x) = F(x) + x$. This "identity shortcut" allows gradients to flow more easily through the network during backpropagation, enabling the training of incredibly deep models—some with over 150 layers. ResNet was a monumental breakthrough and its architecture is a common backbone for many modern computer vision tasks.
+The idea is simple: allow the output of a layer to be the sum of its input and the result of its operations. A block of layers now learns a *residual function* $$F(x)$$ instead of the entire mapping $$H(x)$$. The output becomes $$H(x) = F(x) + x$$. This "identity shortcut" allows gradients to flow more easily through the network during backpropagation, enabling the training of incredibly deep models-some with over 150 layers. ResNet was a monumental breakthrough and its architecture is a common backbone for many modern computer vision tasks.
 
-$$\text{Standard Block: } x \rightarrow \text{Conv Layers} \rightarrow F(x)$$
-$$\text{Residual Block: } x \rightarrow \text{Conv Layers} \rightarrow F(x) \rightarrow F(x) + x$$
+$$ \text{Standard Block: } x \rightarrow \text{Conv Layers} \rightarrow F(x) $$
+$$ \text{Residual Block: } x \rightarrow \text{Conv Layers} \rightarrow F(x) \rightarrow F(x) + x $$

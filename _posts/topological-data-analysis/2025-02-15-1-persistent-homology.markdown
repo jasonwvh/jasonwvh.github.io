@@ -9,13 +9,13 @@ published: true
 ## Understanding Persistent Homology
 Persistent homology tracks topological features (connected components, loops, voids) across multiple scales to help us understand intrinsic patterns and behaviors hidden in high-dimensional data.
 
-- Build a family of simplicial complexes (graphs, triangles, tetrahedra, etc.) from data points by connecting points within a growing radius \( \epsilon \).  
-- Track when features **appear** (birth) and **disappear** (death) as \( \epsilon \) changes.  
+- Build a family of simplicial complexes (graphs, triangles, tetrahedra, etc.) from data points by connecting points within a growing radius $$\epsilon$$.  
+- Track when features **appear** (birth) and **disappear** (death) as $$\epsilon$$ changes.  
 - Features that persist across a wide range of scales are considered meaningful; short-lived features are often noise.
 
 ### Applying Persistent Homology 
 
-Assuming we have a point cloud \( \mathbf{X} \):
+Assuming we have a point cloud $$\mathbf{X}$$:
 
 ```python
 import numpy as np

@@ -27,7 +27,7 @@ The communication between these actors is defined by three key XML-based documen
     *   **Authentication Statements:** Asserts that the user was authenticated by a particular method at a specific time.
     *   **Attribute Statements:** Provides attributes about the user (e.g., email, name, role). This is how the SP receives user profile information.
     *   **Authorization Decision Statements:** States whether the user is authorized to access a specific resource, though this is less commonly used than the other two.
-*   **Protocol:** The rules defining how SAML asks for and receives assertions. The most common protocol messages are the `AuthnRequest` (from SP to IdP) and the `Response` (from IdP to SP).
+*   **Protocol:** The rules defining how SAML asks for and receives assertions. The most common protocol messages are the `<samlp:AuthnRequest>` (from SP to IdP) and the `<samlp:Response>` (from IdP to SP).
 
 ### The SAML SSO Flow (SP-Initiated)
 

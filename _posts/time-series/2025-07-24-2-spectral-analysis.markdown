@@ -11,13 +11,11 @@ In the [first part of this series](/time-series/2025/07/24/1-arima.html), we exp
 
 The core idea of spectral analysis is that any time series can be represented as a combination of sine and cosine waves of different frequencies. By breaking down a time series into its constituent frequencies, we can identify the dominant cycles in the data.
 
-The primary tool for this decomposition is the **Discrete Fourier Transform (DFT)**. The DFT takes a time series and transforms it from the time domain to the frequency domain. For a time series $x_t$ of length $n$, the DFT is given by:
+The primary tool for this decomposition is the **Discrete Fourier Transform (DFT)**. The DFT takes a time series and transforms it from the time domain to the frequency domain. For a time series $$x_t$$ of length $$n$$, the DFT is given by:
 
-$
-d(\omega_j) = \frac{1}{\sqrt{n}} \sum_{t=1}^{n} x_t e^{-2\pi i \omega_j t}
-$
+$$ d(\omega_j) = \frac{1}{\sqrt{n}} \sum_{t=1}^{n} x_t e^{-2\pi i \omega_j t} $$
 
-where $ \omega_j = j/n $ are the Fourier frequencies. The DFT produces a set of complex numbers that represent the amplitude and phase of each frequency component.
+where $$\omega_j = j/n$$ are the Fourier frequencies. The DFT produces a set of complex numbers that represent the amplitude and phase of each frequency component.
 
 While the DFT is foundational, in practice, we often use the **Fast Fourier Transform (FFT)**, which is a highly efficient algorithm for computing the DFT. The FFT makes spectral analysis computationally feasible for large datasets.
 
@@ -27,9 +25,7 @@ Once we have transformed our data to the frequency domain using the FFT, we need
 
 The periodogram is calculated as the squared magnitude of the DFT coefficients:
 
-$
-I(\omega_j) = |d(\omega_j)|^2
-$
+$$ I(\omega_j) = |d(\omega_j)|^2 $$
 
 A peak in the periodogram at a specific frequency indicates that a significant portion of the time series' variance is concentrated at that frequency, which in turn suggests the presence of a cycle.
 

@@ -7,41 +7,41 @@ categories: algebraic-topology
 
 Homology provides a sequence of vector spaces (or modules) whose dimensions, the **Betti numbers**, count the number of "holes" of different dimensions in a space.
 
-- **β₀ (beta-zero)** counts 0-dimensional holes, i.e., connected components.
-- **β₁** counts 1-dimensional holes, like loops or tunnels.
-- **β₂** counts 2-dimensional holes, like voids or cavities.
+- **$$\beta_0$$ (beta-zero)** counts 0-dimensional holes, i.e., connected components.
+- **$$\beta_1$$** counts 1-dimensional holes, like loops or tunnels.
+- **$$\beta_2$$** counts 2-dimensional holes, like voids or cavities.
 
 ### The Machinery of Homology: Chains, Boundaries, and Cycles
 
 To formalize this, homology uses the language of linear algebra. From a simplicial complex, we construct:
 
-1.  **Chain Groups (C_k):** For each dimension k, the chain group C_k is a vector space where the basis vectors are the k-simplices of our complex. An element of C_k, called a **k-chain**, is a linear combination of these simplices. For simplicity, we often use coefficients from the field 𝔽₂={0,1}, where adding a simplex to itself cancels it out.
+1.  **Chain Groups ($$C_k$$):** For each dimension k, the chain group $$C_k$$ is a vector space where the basis vectors are the k-simplices of our complex. An element of $$C_k$$, called a **k-chain**, is a linear combination of these simplices. For simplicity, we often use coefficients from the field $$\mathbb{F}_2=\{0,1\}$$, where adding a simplex to itself cancels it out.
 
-2.  **Boundary Operator (∂_k):** The boundary operator is a linear map `∂_k: C_k -> C_{k-1}` that takes a k-simplex to the sum of its (k-1)-dimensional faces.
+2.  **Boundary Operator ($$\partial_k$$):** The boundary operator is a linear map $$\partial_k: C_k \to C_{k-1}$$ that takes a k-simplex to the sum of its (k-1)-dimensional faces.
     - The boundary of a point is 0.
-    - The boundary of an edge `[v₀, v₁]` is `v₁ - v₀` (or `v₁ + v₀` in 𝔽₂).
-    - The boundary of a filled triangle `[v₀, v₁, v₂]` is the cycle of its three bounding edges: `[v₁, v₂] - [v₀, v₂] + [v₀, v₁]`.
+    - The boundary of an edge $$[v_0, v_1]$$ is $$v_1 - v_0$$ (or $$v_1 + v_0$$ in $$\mathbb{F}_2$$).
+    - The boundary of a filled triangle $$[v_0, v_1, v_2]$$ is the cycle of its three bounding edges: $$[v_1, v_2] - [v_0, v_2] + [v_0, v_1]$$.
 
-The alternating signs are crucial. They ensure that the fundamental property of boundaries holds: **the boundary of a boundary is zero (∂_k ∘ ∂_{k+1} = 0)**. Let's check for a triangle:
-`∂₁ (∂₂ [v₀,v₁,v₂]) = ∂₁ ([v₁,v₂] - [v₀,v₂] + [v₀,v₁])`
-`= (v₂-v₁) - (v₂-v₀) + (v₁-v₀) = v₂ - v₁ - v₂ + v₀ + v₁ - v₀ = 0`.
+The alternating signs are crucial. They ensure that the fundamental property of boundaries holds: **the boundary of a boundary is zero ($$\partial_k \circ \partial_{k+1} = 0$$)**. Let's check for a triangle:
+$$ \partial_1 (\partial_2 [v_0,v_1,v_2]) = \partial_1 ([v_1,v_2] - [v_0,v_2] + [v_0,v_1]) $$
+$$ = (v_2-v_1) - (v_2-v_0) + (v_1-v_0) = v_2 - v_1 - v_2 + v_0 + v_1 - v_0 = 0 $$
 This algebraic fact is the cornerstone of homology.
 
-3.  **Cycles (Z_k = ker ∂_k):** The k-cycles are the k-chains whose boundary is zero. These are the "closed" objects—loops of edges, closed surfaces, etc. The set of all k-cycles forms a vector space, a subspace of C_k.
+3.  **Cycles ($$Z_k = \ker \partial_k$$):** The k-cycles are the k-chains whose boundary is zero. These are the "closed" objects-loops of edges, closed surfaces, etc. The set of all k-cycles forms a vector space, a subspace of $$C_k$$.
 
-4.  **Boundaries (B_k = im ∂_{k+1}):** The k-boundaries are k-chains that are themselves the boundary of a (k+1)-chain. For example, a loop of edges is a boundary if it's the border of a filled-in 2D surface. The set of all k-boundaries is also a vector space.
+4.  **Boundaries ($$B_k = \text{im } \partial_{k+1}$$):** The k-boundaries are k-chains that are themselves the boundary of a (k+1)-chain. For example, a loop of edges is a boundary if it's the border of a filled-in 2D surface. The set of all k-boundaries is also a vector space.
 
-The `∂²=0` condition implies that every boundary is a cycle (B_k is a subspace of Z_k).
+The $$\partial^2=0$$ condition implies that every boundary is a cycle ($$B_k$$ is a subspace of $$Z_k$$).
 
 ### The Homology Group: Holes = Cycles that are Not Boundaries
 
-The k-th **homology group (H_k)** is the quotient vector space:
+The k-th **homology group ($$H_k$$)** is the quotient vector space:
 
-**H_k = Z_k / B_k = (Cycles) / (Boundaries)**
+$$ H_k = Z_k / B_k = (\text{Cycles}) / (\text{Boundaries}) $$
 
 The intuition is profound: we are considering the set of all cycles, but we "mod out" by the ones that are just boundaries of something of a higher dimension. We treat two cycles as equivalent if they differ only by a boundary. The cycles that remain are the ones that enclose a "real" hole.
 
-The dimension of this vector space is the **k-th Betti number (β_k)**. It counts the number of independent k-dimensional holes.
+The dimension of this vector space is the **k-th Betti number ($$\beta_k$$)**. It counts the number of independent k-dimensional holes.
 
 ### A More Efficient Approach: Cellular Homology
 
@@ -53,37 +53,37 @@ A CW complex is built inductively:
 - Attach 2-cells (disks) by their boundary circles to the 1-skeleton.
 - And so on.
 
-The cellular chain complex is much smaller. The basis for the chain group `C_k^{cell}` is just the set of k-cells. The boundary map `d_k: C_k^{cell} -> C_{k-1}^{cell}` is defined by how the k-cells are attached to the (k-1)-cells.
+The cellular chain complex is much smaller. The basis for the chain group $$C_k^{\text{cell}}$$ is just the set of k-cells. The boundary map $$d_k: C_k^{\text{cell}} \to C_{k-1}^{\text{cell}}$$ is defined by how the k-cells are attached to the (k-1)-cells.
 
 **Example: The Torus Revisited**
 We can build a torus with a much simpler cell structure:
-- One 0-cell (a single point `v`).
-- Two 1-cells (two loops `a` and `b` attached to `v`).
-- One 2-cell (a square `f` whose opposite sides are identified and attached to the loops).
+- One 0-cell (a single point $$v$$).
+- Two 1-cells (two loops $$a$$ and $$b$$ attached to $$v$$).
+- One 2-cell (a square $$f$$ whose opposite sides are identified and attached to the loops).
 
-The cellular chain groups are `C_0 = ℤv`, `C_1 = ℤa ⊕ ℤb`, `C_2 = ℤf`.
-- The boundary `d₂f`: The boundary of the square `f` is `a+b-a-b = 0`. So `d₂` is the zero map.
-- The boundary `d₁`: The boundaries of the loops `a` and `b` are `v-v=0`. So `d₁` is also the zero map.
+The cellular chain groups are $$C_0 = \mathbb{Z}v$$, $$C_1 = \mathbb{Z}a \oplus \mathbb{Z}b$$, $$C_2 = \mathbb{Z}f$$.
+- The boundary $$d_2f$$: The boundary of the square $$f$$ is $$a+b-a-b = 0$$. So $$d_2$$ is the zero map.
+- The boundary $$d_1$$: The boundaries of the loops $$a$$ and $$b$$ are $$v-v=0$$. So $$d_1$$ is also the zero map.
 
 Now we compute the homology:
-- `H₂ = ker(d₂) / im(d₃) = ker(0) / 0 = C₂ = ℤ`. So `β₂=1`.
-- `H₁ = ker(d₁) / im(d₂) = ker(0) / im(0) = C₁ = ℤ⊕��`. So `β₁=2`.
-- `H₀ = ker(d₀) / im(d₁) = C₀ / im(0) = C₀ = ℤ`. So `β₀=1`.
+- $$H_2 = \ker(d_2) / \text{im}(d_3) = \ker(0) / 0 = C_2 = \mathbb{Z}$$. So $$\beta_2=1$$.
+- $$H_1 = \ker(d_1) / \text{im}(d_2) = \ker(0) / \text{im}(0) = C_1 = \mathbb{Z}\oplus\mathbb{Z}$$. So $$\beta_1=2$$.
+- $$H_0 = \ker(d_0) / \text{im}(d_1) = C_0 / \text{im}(0) = C_0 = \mathbb{Z}$$. So $$\beta_0=1$$.
 
 This matches our intuition and is far simpler than any simplicial calculation.
 
 **Example: The Sphere**
-A sphere can be built with one 0-cell `v` and one 2-cell `f`. The boundary of the 2-cell is attached to `v` in a trivial way.
-- `C₂ = ℤf`, `C₁ = 0`, `C₀ = ℤv`.
+A sphere can be built with one 0-cell $$v$$ and one 2-cell $$f$$. The boundary of the 2-cell is attached to $$v$$ in a trivial way.
+- $$C_2 = \mathbb{Z}f$$, $$C_1 = 0$$, $$C_0 = \mathbb{Z}v$$.
 - All boundary maps are zero.
-- `H₂ = ℤ`, `H₁ = 0`, `H₀ = ℤ`. So `β₂=1, β₁=0, β₀=1`.
+- $$H_2 = \mathbb{Z}$$, $$H_1 = 0$$, $$H_0 = \mathbb{Z}$$. So $$\beta_2=1, \beta_1=0, \beta_0=1$$.
 
 ### The Euler-Poincaré Formula
 
 Finally, we can connect this back to the Euler characteristic with the beautiful **Euler-Poincaré formula**:
 
-**χ = Σ (-1)^k β_k = β₀ - β₁ + β₂ - β₃ + ...**
+$$ \chi = \sum_{k=0}^n (-1)^k \beta_k = \beta_0 - \beta_1 + \beta_2 - \beta_3 + \dots $$
 
-For the torus: χ = 1 - 2 + 1 = 0.
-For the sphere: χ = 1 - 0 + 1 = 2.
+For the torus: $$\chi = 1 - 2 + 1 = 0$$.
+For the sphere: $$\chi = 1 - 0 + 1 = 2$$.
 It works! Homology gives us a much richer, multi-dimensional signature of a space, and it contains the Euler characteristic as a byproduct. In our next post, we'll look at the dual concept: **cohomology**.

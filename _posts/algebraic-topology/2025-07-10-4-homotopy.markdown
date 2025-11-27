@@ -7,36 +7,36 @@ categories: algebraic-topology
 
 Our previous tools, homology and cohomology, are built by first breaking a space into simple pieces (simplices). **Homotopy theory** takes a different approach. It studies a space by considering the maps *into* it, focusing on paths and loops and how they can be deformed.
 
-### The Fundamental Group, π₁(X, x₀)
+### The Fundamental Group, $$\pi_1(X, x_0)$
 
-A path in a space X is a continuous map `f: [0,1] -> X`. A loop is a path that starts and ends at the same point, `x₀`, called the basepoint.
+A path in a space X is a continuous map $$f: [0,1] \to X$$. A loop is a path that starts and ends at the same point, $$x_0$$, called the basepoint.
 
-Two loops, `f` and `g`, are **homotopic** if one can be continuously deformed into the other. Formally, this means there exists a continuous map `H: [0,1] × [0,1] -> X` (the homotopy) such that `H(t, 0) = f(t)` and `H(t, 1) = g(t)`.
+Two loops, $$f$$ and $$g$$, are **homotopic** if one can be continuously deformed into the other. Formally, this means there exists a continuous map $$H: [0,1] \times [0,1] \to X$$ (the homotopy) such that $$H(t, 0) = f(t)$$ and $$H(t, 1) = g(t)$$.
 
-The set of all homotopy classes of loops at a basepoint `x₀` forms a group, called the **fundamental group, π₁(X, x₀)**.
-- **The group operation** is concatenation: traverse loop `f` then loop `g`.
-- **The identity element** is the constant loop that stays at `x₀`.
-- **The inverse** of a loop `f` is the same path traversed in reverse.
+The set of all homotopy classes of loops at a basepoint $$x_0$$ forms a group, called the **fundamental group, $$\pi_1(X, x_0)$$**.
+- **The group operation** is concatenation: traverse loop $$f$$ then loop $$g$$.
+- **The identity element** is the constant loop that stays at $$x_0$$.
+- **The inverse** of a loop $$f$$ is the same path traversed in reverse.
 
 Examples:
-- **The plane, ℝ²:** Any loop can be shrunk to a point. π₁(ℝ²) = {e}, the trivial group.
-- **The circle, S¹:** Loops are classified by an integer "winding number." π₁(S¹) = ℤ.
-- **The torus, T²:** A loop can wind around the short way or the long way. These two loops commute. π₁(T²) = ℤ × ℤ.
+- **The plane, $$\mathbb{R}^2$$:** Any loop can be shrunk to a point. $$\pi_1(\mathbb{R}^2) = \{e\}$$, the trivial group.
+- **The circle, $$S^1$$:** Loops are classified by an integer "winding number." $$\pi_1(S^1) = \mathbb{Z}$$.
+- **The torus, $$T^2$$:** A loop can wind around the short way or the long way. These two loops commute. $$\pi_1(T^2) = \mathbb{Z} \times \mathbb{Z}$$.
 
 ### Homotopy vs. Homology: A Tale of Two Groups
 
-The fundamental group π₁ and the first homology group H₁ both detect 1-dimensional holes. What's the difference?
+The fundamental group $$\pi_1$$ and the first homology group $$H_1$$ both detect 1-dimensional holes. What's the difference?
 
-1.  **Commutativity:** Homology groups are always abelian (commutative). The fundamental group need not be. Consider the **wedge of two circles** (a figure-eight, S¹ ∨ S¹). Let `a` be a loop around the first circle and `b` be a loop around the second. The path `ab` (do `a` then `b`) cannot be deformed into `ba`. The fundamental group is the **free group on two generators**, F₂, which is highly non-abelian.
+1.  **Commutativity:** Homology groups are always abelian (commutative). The fundamental group need not be. Consider the **wedge of two circles** (a figure-eight, $$S^1 \vee S^1$$). Let $$a$$ be a loop around the first circle and $$b$$ be a loop around the second. The path $$ab$$ (do $$a$$ then $$b$$) cannot be deformed into $$ba$$. The fundamental group is the **free group on two generators**, $$F_2$$, which is highly non-abelian.
 
-2.  **The Hurewicz Theorem:** The relationship is precise. The first homology group H₁(X) is the **abelianization** of the fundamental group π₁(X). The abelianization of a group G is `G / [G,G]`, where `[G,G]` is the commutator subgroup. It's what you get when you force all elements to commute. For the figure-eight, H₁ is ℤ × ℤ, which forgets the non-commutative `aba⁻¹b⁻¹` information. Homology is easier to compute, but homotopy is more sensitive.
+2.  **The Hurewicz Theorem:** The relationship is precise. The first homology group $$H_1(X)$$ is the **abelianization** of the fundamental group $$\pi_1(X)$$. The abelianization of a group G is $$G / [G,G]$$, where $$[G,G]$$ is the commutator subgroup. It's what you get when you force all elements to commute. For the figure-eight, $$H_1$$ is $$\mathbb{Z} \times \mathbb{Z}$$, which forgets the non-commutative $$aba^{-1}b^{-1}$$ information. Homology is easier to compute, but homotopy is more sensitive.
 
 ### Higher Homotopy Groups
 
-We can generalize from loops (maps from S¹) to maps from higher-dimensional spheres. The set of homotopy classes of maps from the k-sphere S^k into a space X forms the **k-th homotopy group, π_k(X)**.
+We can generalize from loops (maps from $$S^1$$) to maps from higher-dimensional spheres. The set of homotopy classes of maps from the k-sphere $$S^k$$ into a space X forms the **k-th homotopy group, $$\pi_k(X)$$**.
 
 These groups capture incredibly subtle information about the connectivity of a space. However, they are notoriously difficult to compute. A few surprising facts:
-- Unlike π₁, the higher homotopy groups π_k for k > 1 are always abelian.
-- The homotopy groups of the spheres themselves are bewilderingly complex and still not fully understood. For example, π₃(S²) = ℤ, generated by the Hopf fibration, a non-obvious way to map a 3-sphere onto a 2-sphere. π_k(S^n) is often non-zero for k > n.
+- Unlike $$\pi_1$$, the higher homotopy groups $$\pi_k$$ for $$k > 1$$ are always abelian.
+- The homotopy groups of the spheres themselves are bewilderingly complex and still not fully understood. For example, $$\pi_3(S^2) = \mathbb{Z}$$, generated by the Hopf fibration, a non-obvious way to map a 3-sphere onto a 2-sphere. $$\pi_k(S^n)$$ is often non-zero for $$k > n$$.
 
 Homotopy theory asks questions about the global connectivity of a space that are not accessible via homology. It's a deeper, more complex, and richer theory. In our final post, we will discuss **sheaves**, a powerful tool for relating local properties of a space to its global structure.
